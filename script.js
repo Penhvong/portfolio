@@ -1,0 +1,124 @@
+(function(){
+  var root=document.documentElement;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Light / dark mode
+  document.getElementById('theme').addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{localStorage.setItem('theme',next);}catch(e){}
+  });
+
+  // Typing line (EDIT the list)
+  var words=['web apps with ASP.NET','KHQR payment systems','mobile apps with Flutter','forms and reports'];
+  var el=document.getElementById('typed'),w=0,c=0,del=false;
+  (function type(){
+    var list=(window.getTypedWords&&window.getTypedWords())||words;var word=list[w%list.length];
+    el.textContent=word.slice(0,c);
+    if(!del&&c<word.length){c++;setTimeout(type,70);}
+    else if(!del){del=true;setTimeout(type,1400);}
+    else if(c>0){c--;setTimeout(type,35);}
+    else{del=false;w=(w+1)%words.length;setTimeout(type,300);}
+  })();
+
+  // Reveal + animations
+  function countUp(n){
+    var to=+n.dataset.count,t0=null;
+    function step(t){
+      if(!t0)t0=t;var p=Math.min((t-t0)/1000,1);
+      n.textContent=Math.round(to*p);
+      if(p<1)requestAnimationFrame(step);
+    }
+    reduce?(n.textContent=to):requestAnimationFrame(step);
+  }
+  function animate(sec){
+    sec.querySelectorAll('.spectrum').forEach(function(s){s.querySelector('.dot').style.left=s.dataset.pos+'%';});
+    sec.querySelectorAll('.skill').forEach(function(s){s.querySelector('.bar i').style.width=s.dataset.level+'%';});
+    sec.querySelectorAll('[data-count]').forEach(countUp);
+  }
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');animate(e.target);io.unobserve(e.target);}});
+  },{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(function(s){io.observe(s);});
+
+  // Cursor spotlight on cards
+  document.addEventListener('pointermove',function(e){
+    var g=e.target.closest&&e.target.closest('.glow');
+    if(!g)return;
+    var r=g.getBoundingClientRect();
+    g.style.setProperty('--mx',(e.clientX-r.left)+'px');
+    g.style.setProperty('--my',(e.clientY-r.top)+'px');
+  });
+
+  // 3D tilt on the photo card
+  var tilt=document.querySelector('.tilt');
+  if(tilt&&!reduce&&matchMedia('(hover:hover)').matches){
+    tilt.addEventListener('pointermove',function(e){
+      var r=tilt.getBoundingClientRect();
+      var x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      tilt.style.transform='perspective(800px) rotateY('+(x*10)+'deg) rotateX('+(-y*10)+'deg)';
+    });
+    tilt.addEventListener('pointerleave',function(){tilt.style.transform='';});
+  }
+
+  // Project filters
+  var chips=document.querySelectorAll('.chip'),cards=document.querySelectorAll('#projectGrid .card');
+  chips.forEach(function(ch){
+    ch.addEventListener('click',function(){
+      chips.forEach(function(x){x.classList.remove('on');});ch.classList.add('on');
+      var f=ch.dataset.f;
+      cards.forEach(function(cd){
+        cd.classList.toggle('hide',f!=='all'&&cd.dataset.cat.split(' ').indexOf(f)<0);
+      });
+    });
+  });
+
+  // Copy email
+  var toast=document.getElementById('toast');
+  function say(m){toast.textContent=m;toast.classList.add('show');setTimeout(function(){toast.classList.remove('show');},2000);}
+  document.getElementById('copyMail').addEventListener('click',function(){
+    var mail='Penhvong46@gmail.com';
+    if(navigator.clipboard){navigator.clipboard.writeText(mail).then(function(){say(window.t?window.t('Email copied'):'Email copied');},function(){say(mail);});}
+    else{say(mail);}
+  });
+
+  // Scroll progress + active nav
+  var bar=document.getElementById('progress');
+  var links=[].slice.call(document.querySelectorAll('.nav nav a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  window.addEventListener('scroll',function(){
+    var h=document.documentElement;
+    bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+    var y=h.scrollTop+120,idx=-1;
+    secs.forEach(function(s,i){if(s&&s.offsetTop<=y)idx=i;});
+    links.forEach(function(a,i){a.classList.toggle('active',i===idx);});
+  },{passive:true});
+
+  // Hero network background
+  var cv=document.getElementById('net');
+  if(cv&&!reduce){
+    var ctx=cv.getContext('2d'),pts=[],W,H,mouse={x:-999,y:-999};
+    function size(){W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;
+      var n=Math.min(70,Math.floor(W*H/16000));pts=[];
+      for(var i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4});}
+    size();addEventListener('resize',size);
+    cv.parentElement.addEventListener('pointermove',function(e){var r=cv.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});
+    (function draw(){
+      var rgb=getComputedStyle(root).getPropertyValue('--net').trim()||'15,139,141';
+      ctx.clearRect(0,0,W,H);
+      for(var i=0;i<pts.length;i++){
+        var p=pts[i];p.x+=p.vx;p.y+=p.vy;
+        if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+        ctx.fillStyle='rgba('+rgb+',.6)';ctx.beginPath();ctx.arc(p.x,p.y,2,0,6.283);ctx.fill();
+        for(var j=i+1;j<pts.length;j++){
+          var q=pts[j],d=Math.hypot(p.x-q.x,p.y-q.y);
+          if(d<120){ctx.strokeStyle='rgba('+rgb+','+(.25*(1-d/120))+')';ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}
+        }
+        var m=Math.hypot(p.x-mouse.x,p.y-mouse.y);
+        if(m<150){ctx.strokeStyle='rgba(242,165,65,'+(.5*(1-m/150))+')';ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(mouse.x,mouse.y);ctx.stroke();}
+      }
+      requestAnimationFrame(draw);
+    })();
+  }
+})();
