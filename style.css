@@ -387,3 +387,135 @@ html[lang="km"] .fest-list .kh{display:none}
 ::view-transition-old(root){z-index:1}
 ::view-transition-new(root){z-index:2}
 .card,.hero-card,.nav,.spectrum,.skill,.tk,.stats div,.chip,.btn,.contact-item{transition:background-color .4s,border-color .4s,color .4s,box-shadow .4s,transform .2s}
+
+/* ===== ABA Khmer-culture look (applies to every festival theme except Default) =====
+   Warm sand header, hanging leaf-and-blossom garland, embossed parchment tiles,
+   lotus dividers, kbach corner ornaments, pill buttons. Colours come from each theme's tokens. */
+:root:not([data-festival="default"]){
+  --garland:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='70' viewBox='0 0 260 70'><path d='M0 4C32 4 38 28 65 28S98 4 130 4 163 28 195 28 228 4 260 4' fill='none' stroke='black' stroke-width='2.2'/><g fill='black'><path id='l' d='M0 0C7-9 19-9 26 0C19 9 7 9 0 0Z' transform='translate(8 6) rotate(48)'/><path d='M0 0C7-9 19-9 26 0C19 9 7 9 0 0Z' transform='translate(30 16) rotate(80)'/><path d='M0 0C7-9 19-9 26 0C19 9 7 9 0 0Z' transform='translate(52 26) rotate(118)'/><path d='M0 0C7-9 19-9 26 0C19 9 7 9 0 0Z' transform='translate(80 26) rotate(62)'/><path d='M0 0C7-9 19-9 26 0C19 9 7 9 0 0Z' transform='translate(102 16) rotate(100)'/><path d='M0 0C7-9 19-9 26 0C19 9 7 9 0 0Z' transform='translate(122 6) rotate(128)'/><path d='M0 0C7-9 19-9 26 0C19 9 7 9 0 0Z' transform='translate(138 6) rotate(52)'/><path d='M0 0C7-9 19-9 26 0C19 9 7 9 0 0Z' transform='translate(160 16) rotate(80)'/><path d='M0 0C7-9 19-9 26 0C19 9 7 9 0 0Z' transform='translate(182 26) rotate(118)'/><path d='M0 0C7-9 19-9 26 0C19 9 7 9 0 0Z' transform='translate(210 26) rotate(62)'/><path d='M0 0C7-9 19-9 26 0C19 9 7 9 0 0Z' transform='translate(232 16) rotate(100)'/><path d='M0 0C7-9 19-9 26 0C19 9 7 9 0 0Z' transform='translate(252 6) rotate(128)'/><path d='M0 0C5-7 14-7 19 0C14 7 5 7 0 0Z' transform='translate(65 30) rotate(90)'/><path d='M0 0C5-7 14-7 19 0C14 7 5 7 0 0Z' transform='translate(195 30) rotate(90)'/></g></svg>");
+  --blossom:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='70' viewBox='0 0 260 70'><g fill='black'><g transform='translate(65 52)'><circle cy='-5' r='3.6'/><circle cx='4.8' cy='-1.5' r='3.6'/><circle cx='3' cy='4' r='3.6'/><circle cx='-3' cy='4' r='3.6'/><circle cx='-4.8' cy='-1.5' r='3.6'/></g><g transform='translate(195 52)'><circle cy='-5' r='3.6'/><circle cx='4.8' cy='-1.5' r='3.6'/><circle cx='3' cy='4' r='3.6'/><circle cx='-3' cy='4' r='3.6'/><circle cx='-4.8' cy='-1.5' r='3.6'/></g><g transform='translate(130 8)'><circle cy='-4' r='3'/><circle cx='3.8' cy='-1.2' r='3'/><circle cx='2.4' cy='3.2' r='3'/><circle cx='-2.4' cy='3.2' r='3'/><circle cx='-3.8' cy='-1.2' r='3'/></g></g></svg>");
+  --lotus:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='22' viewBox='0 0 160 22'><path d='M0 15h56M104 15h56' stroke='black' stroke-width='1.4'/><circle cx='62' cy='15' r='1.8'/><circle cx='98' cy='15' r='1.8'/><g fill='black'><path d='M80 2C86 8 87 13 80 20C73 13 74 8 80 2Z'/><path d='M70 6C77 8 80 13 80 20C73 19 68 14 70 6Z' fill-opacity='.8'/><path d='M90 6C83 8 80 13 80 20C87 19 92 14 90 6Z' fill-opacity='.8'/></g></svg>");
+  --kbach:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'><g fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'><path d='M3 3H27C20 5 15 10 14 17 12 12 8 9 3 8'/><path d='M3 3V27C5 20 10 15 17 14 12 12 9 8 8 3'/><path d='M3 3C12 3 20 11 20 20' stroke-opacity='.6'/></g><circle cx='5' cy='5' r='2.2' fill='black'/></svg>");
+}
+
+/* Sand-to-theme gradient at the top of the page, like the app header (light mode only) */
+:root:not([data-festival="default"]):not([data-theme="dark"]) body{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 72%,#e9d2a0) 0,var(--bg) 560px) var(--bg) no-repeat;
+}
+/* Faint lattice over the whole page, like woven silk */
+:root:not([data-festival="default"])::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:var(--accent);opacity:.05;
+  -webkit-mask:var(--lattice) 0 0/var(--lw,56px) var(--lh,56px);mask:var(--lattice) 0 0/var(--lw,56px) var(--lh,56px);
+}
+
+/* Header: double line like a carved frame */
+:root:not([data-festival="default"]) .nav{
+  border-bottom:1px solid color-mix(in srgb,var(--accent) 55%,var(--line));
+  box-shadow:0 3px 0 -2px color-mix(in srgb,var(--accent) 30%,transparent),0 8px 24px color-mix(in srgb,var(--accent) 12%,transparent);
+}
+:root:not([data-festival="default"]) .nav nav a.active,
+:root:not([data-festival="default"]) .nav nav a:hover{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--card) 70%,var(--accent)),var(--card));
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent) 45%,transparent);
+}
+
+/* Garland hanging from the top of the hero: leaves in the theme colour, blossoms in the accent */
+:root:not([data-festival="default"]) .hero-bg::after,
+:root:not([data-festival="default"]) .scene::before{
+  content:"";position:absolute;left:0;right:0;top:-2px;height:70px;pointer-events:none;
+  -webkit-mask:var(--garland) 0 0/260px 70px repeat-x;mask:var(--garland) 0 0/260px 70px repeat-x;
+  background:var(--primary);opacity:.55;z-index:1;
+}
+:root:not([data-festival="default"]) .scene::before{
+  -webkit-mask-image:var(--blossom);mask-image:var(--blossom);background:var(--accent);opacity:.95;z-index:2;
+}
+
+/* Embossed parchment tiles (inner double rule + soft warm gradient) */
+:root:not([data-festival="default"]) .hero-card,
+:root:not([data-festival="default"]) .card,
+:root:not([data-festival="default"]) .spectrum,
+:root:not([data-festival="default"]) .skill,
+:root:not([data-festival="default"]) .tk,
+:root:not([data-festival="default"]) .stats div,
+:root:not([data-festival="default"]) .contact-item{
+  background:linear-gradient(160deg,color-mix(in srgb,var(--card) 86%,var(--accent)) 0%,var(--card) 48%,color-mix(in srgb,var(--card) 90%,var(--accent)) 100%);
+  border:1px solid color-mix(in srgb,var(--accent) 42%,var(--line));
+  border-radius:22px;
+  box-shadow:inset 0 0 0 4px var(--card),inset 0 0 0 5px color-mix(in srgb,var(--accent) 32%,transparent),var(--shadow);
+}
+:root:not([data-festival="default"]) .card:hover,
+:root:not([data-festival="default"]) .contact-item:hover{border-color:var(--accent);transform:translateY(-3px)}
+:root:not([data-festival="default"]) .tk .chips li{background:color-mix(in srgb,var(--card) 80%,var(--accent))}
+
+/* Kbach corner ornaments on the profile card and the featured project */
+:root:not([data-festival="default"]) .hero-card,
+:root:not([data-festival="default"]) .card.wide{position:relative}
+:root:not([data-festival="default"]) .hero-card::before,
+:root:not([data-festival="default"]) .hero-card::after,
+:root:not([data-festival="default"]) .card.wide::before,
+:root:not([data-festival="default"]) .card.wide::after{
+  content:"";position:absolute;width:44px;height:44px;pointer-events:none;background:var(--accent);opacity:.85;
+  -webkit-mask:var(--kbach) center/contain no-repeat;mask:var(--kbach) center/contain no-repeat;
+}
+:root:not([data-festival="default"]) .hero-card::before,
+:root:not([data-festival="default"]) .card.wide::before{top:8px;left:8px;inset-inline:auto;right:auto}
+:root:not([data-festival="default"]) .hero-card::after,
+:root:not([data-festival="default"]) .card.wide::after{bottom:8px;right:8px;top:auto;left:auto;transform:rotate(180deg)}
+/* the cursor-glow layer on .card.wide uses ::before; keep it below the ornament */
+:root:not([data-festival="default"]) .card.wide.glow::before{inset:auto;top:8px;left:8px;width:44px;height:44px;opacity:.85;background:var(--accent)}
+
+/* Photo: gold ring with an inner sand mat, like a framed portrait */
+:root:not([data-festival="default"]) .photo{
+  border-radius:26px;
+  box-shadow:0 0 0 5px var(--card),0 0 0 6px var(--accent),0 0 0 11px color-mix(in srgb,var(--accent) 22%,transparent);
+}
+
+/* Section titles: lotus divider instead of the diamond */
+:root:not([data-festival="default"]) h2::after{
+  width:160px;height:22px;margin-top:8px;
+  -webkit-mask:var(--lotus) left center/160px 22px no-repeat;mask:var(--lotus) left center/160px 22px no-repeat;
+}
+:root:not([data-festival="default"]) .contact-box h2::after{-webkit-mask-position:center;mask-position:center}
+
+/* Pills, like the quick-action buttons in the app */
+:root:not([data-festival="default"]) .btn{border-radius:999px;padding-inline:26px}
+:root:not([data-festival="default"]) .btn.icon{padding-inline:14px}
+:root:not([data-festival="default"]) .btn:not(.primary){
+  background:linear-gradient(180deg,color-mix(in srgb,var(--card) 82%,var(--accent)),var(--card));
+  border-color:color-mix(in srgb,var(--accent) 50%,var(--line));
+}
+:root:not([data-festival="default"]) .hello,
+:root:not([data-festival="default"]) .chip,
+:root:not([data-festival="default"]) .chips li{
+  border-color:color-mix(in srgb,var(--accent) 45%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--card) 84%,var(--accent)),var(--card));
+}
+:root:not([data-festival="default"]) .chip.on{background:var(--primary);border-color:var(--primary)}
+:root:not([data-festival="default"]) .marquee{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--card) 88%,var(--accent)),var(--card));
+  border-color:color-mix(in srgb,var(--accent) 45%,var(--line));
+}
+
+/* Bars and timeline use the ornament colour */
+:root:not([data-festival="default"]) .bar{background:color-mix(in srgb,var(--accent) 22%,var(--line))}
+:root:not([data-festival="default"]) .journey{border-left:2px dotted var(--accent)}
+:root:not([data-festival="default"]) .journey li::before{
+  width:18px;height:18px;left:-10px;border-radius:4px;transform:rotate(45deg);border:3px solid var(--bg);
+}
+
+/* Khmer headings use Moul (ceremonial Khmer face) when the site is in Khmer */
+html[lang="km"]:not([data-festival="default"]) h2{font-family:"Moul","Kantumruy Pro",serif;font-size:1.65rem;font-weight:400;line-height:1.5}
+
+@media (max-width:760px){
+  :root:not([data-festival="default"]) .hero-bg::after,
+  :root:not([data-festival="default"]) .scene::before{height:52px;-webkit-mask-size:195px 52px;mask-size:195px 52px}
+  :root:not([data-festival="default"]) .hero-card::before,
+  :root:not([data-festival="default"]) .hero-card::after,
+  :root:not([data-festival="default"]) .card.wide::before,
+  :root:not([data-festival="default"]) .card.wide::after{width:34px;height:34px}
+}
+@media (prefers-reduced-motion:reduce){:root:not([data-festival="default"]) .card:hover{transform:none}}
+
+/* Festival menu: keyboard focus, and a side bar on the festival that Auto is showing today */
+.fest-list li:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.fest-list li[aria-current="true"]{box-shadow:inset 3px 0 0 var(--accent)}

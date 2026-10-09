@@ -45,14 +45,14 @@
       return show('Please fill in all fields.',false);
     }
     btn.disabled=true;show('Sending...',true);
-    fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)})
+    fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d),signal:window.AbortSignal&&AbortSignal.timeout?AbortSignal.timeout(15000):undefined})
       .then(function(r){
         if(r.ok){f.reset();return show('Message sent. Thank you!',true);}
         if(r.status===429)return show('Too many messages. Try again later.',false);
         if(r.status===400)return show('Please fill in all fields.',false);
         return r.json().catch(function(){return {};}).then(function(j){
           if(j.error==='not_configured')show('Server is not set up. Check the .env file.',false);
-          else if(j.error==='telegram'){show('Telegram: ',false);st.textContent=T('Telegram rejected the message.')+(j.detail?' ('+j.detail+')':'');}
+          else if(j.error==='telegram'){show('Telegram rejected the message.',false);if(j.detail)console.warn('Telegram:',j.detail);}
           else if(j.error==='network')show('Server cannot reach Telegram. Check internet or VPN.',false);
           else show('Cannot reach the form server. Run node server.js and open http://localhost:3000',false);
         });
