@@ -23,8 +23,9 @@
     <a class="brand" href="#top">Chanpenhvong<i></i></a>
     <nav>
       <a href="#about">About</a><a href="#traits">Personality</a><a href="#skills">Skills</a>
-      <a href="#projects">Projects</a><a href="#journey">Journey</a><a href="#contact">Contact</a>
+      <a href="#workbench">Lab</a><a href="#projects">Projects</a><a href="#journey">Journey</a><a href="#contact">Contact</a>
     </nav>
+    <button id="cmdBtn" class="cmd-pill-btn" type="button" aria-label="Open command palette" onclick="if(window.openCommandPalette)window.openCommandPalette()"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span>Commands</span><kbd>⌘K</kbd></button>
     <div class="lang">
       <button id="lang" class="langbtn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Choose language"><span id="langFlag" class="flag"><svg viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#fff"/><rect y="0.00" width="30" height="1.54" fill="#b22234"/><rect y="3.08" width="30" height="1.54" fill="#b22234"/><rect y="6.15" width="30" height="1.54" fill="#b22234"/><rect y="9.23" width="30" height="1.54" fill="#b22234"/><rect y="12.31" width="30" height="1.54" fill="#b22234"/><rect y="15.38" width="30" height="1.54" fill="#b22234"/><rect y="18.46" width="30" height="1.54" fill="#b22234"/><rect width="12.5" height="10.77" fill="#3c3b6e"/><circle cx="1.10" cy="1.10" r=".55" fill="#fff"/><circle cx="3.15" cy="1.10" r=".55" fill="#fff"/><circle cx="5.20" cy="1.10" r=".55" fill="#fff"/><circle cx="7.25" cy="1.10" r=".55" fill="#fff"/><circle cx="9.30" cy="1.10" r=".55" fill="#fff"/><circle cx="11.35" cy="1.10" r=".55" fill="#fff"/><circle cx="1.10" cy="3.15" r=".55" fill="#fff"/><circle cx="3.15" cy="3.15" r=".55" fill="#fff"/><circle cx="5.20" cy="3.15" r=".55" fill="#fff"/><circle cx="7.25" cy="3.15" r=".55" fill="#fff"/><circle cx="9.30" cy="3.15" r=".55" fill="#fff"/><circle cx="11.35" cy="3.15" r=".55" fill="#fff"/><circle cx="1.10" cy="5.20" r=".55" fill="#fff"/><circle cx="3.15" cy="5.20" r=".55" fill="#fff"/><circle cx="5.20" cy="5.20" r=".55" fill="#fff"/><circle cx="7.25" cy="5.20" r=".55" fill="#fff"/><circle cx="9.30" cy="5.20" r=".55" fill="#fff"/><circle cx="11.35" cy="5.20" r=".55" fill="#fff"/><circle cx="1.10" cy="7.25" r=".55" fill="#fff"/><circle cx="3.15" cy="7.25" r=".55" fill="#fff"/><circle cx="5.20" cy="7.25" r=".55" fill="#fff"/><circle cx="7.25" cy="7.25" r=".55" fill="#fff"/><circle cx="9.30" cy="7.25" r=".55" fill="#fff"/><circle cx="11.35" cy="7.25" r=".55" fill="#fff"/><circle cx="1.10" cy="9.30" r=".55" fill="#fff"/><circle cx="3.15" cy="9.30" r=".55" fill="#fff"/><circle cx="5.20" cy="9.30" r=".55" fill="#fff"/><circle cx="7.25" cy="9.30" r=".55" fill="#fff"/><circle cx="9.30" cy="9.30" r=".55" fill="#fff"/><circle cx="11.35" cy="9.30" r=".55" fill="#fff"/></svg></span><span id="langText">EN</span></button>
       <ul id="langList" class="lang-list" role="listbox" hidden>
@@ -53,12 +54,37 @@
         <li role="option" data-fest="sea-festival" aria-selected="false"><span class="sw" style="--c1:#0e7490;--c2:#e11d48"></span><span class="em" aria-hidden="true">🌊</span><span class="ft"><b>Sea Festival</b><span class="kh" lang="km">បុណ្យសមុទ្រ</span><small>Dec</small></span></li>
       </ul>
     </div>
+    <button id="soundToggle" class="iconbtn sound-btn" type="button" aria-label="Toggle sound effects">
+      <svg class="sound-on" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+      <svg class="sound-off" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+    </button>
     <button id="theme" type="button" aria-label="Switch light or dark mode">
       <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
       <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
     </button>
   </div>
 </header>
+
+<div class="innovation-hud" id="innovationHud">
+  <div class="wrap hud-in">
+    <div class="hud-left">
+      <span class="hud-live-dot"></span>
+      <span class="hud-location">Phnom Penh, Cambodia 🇰🇭</span>
+      <span class="hud-sep">·</span>
+      <span class="hud-time" id="hudTime">--:--:-- ICT</span>
+    </div>
+    <div class="hud-center">
+      <span class="hud-badge">⚡ Currently Building</span>
+      <span class="hud-task">KHQR Payment Architecture @ Chipmong</span>
+    </div>
+    <div class="hud-right">
+      <button type="button" class="hud-cmd-pill" id="hudCmdBtn">
+        <span>Quick Actions</span>
+        <kbd>⌘K</kbd>
+      </button>
+    </div>
+  </div>
+</div>
 
 <main id="top">
   <div class="hero-bg">
@@ -225,6 +251,46 @@
     <div class="toolkit"><div class="tk glow"><h3>Mobile</h3><ul class="chips"><li>Flutter</li><li>Offline/online sync</li><li>SQLite</li><li>GPS and maps</li></ul></div><div class="tk glow"><h3>Web</h3><ul class="chips"><li>C#</li><li>ASP.NET Core MVC</li><li>ASP.NET MVC</li><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Laravel (PHP)</li></ul></div><div class="tk glow"><h3>Data and reports</h3><ul class="chips"><li>SQL Server</li><li>MySQL</li><li>PostgreSQL</li><li>RDLC</li><li>Crystal Reports</li><li>Power BI</li></ul></div><div class="tk glow"><h3>Integration</h3><ul class="chips"><li>SAP Business One</li><li>KHQR payments</li></ul></div><div class="tk glow"><h3>Tools and design</h3><ul class="chips"><li>Git</li><li>Figma</li><li>Docker</li><li>Leaflet.js</li></ul></div></div>
     <h3>Interests</h3>
     <ul class="chips"><li>Learning new tech</li><li>Solving hard bugs</li><li>Music</li><li>Travel</li><li>Coffee</li></ul>
+  </section>
+
+  <section id="workbench" class="wrap reveal">
+    <div class="section-head">
+      <span class="section-tag">Engineering Lab</span>
+      <h2>Architecture Workbench</h2>
+      <p class="sub">Production-grade implementations for KHQR payments, offline-first mobile sync, and analytical reporting.</p>
+    </div>
+    <div class="wb-container glow">
+      <div class="wb-header">
+        <div class="wb-traffic">
+          <span class="traffic-dot red"></span>
+          <span class="traffic-dot yellow"></span>
+          <span class="traffic-dot green"></span>
+        </div>
+        <div class="wb-tabs" role="tablist">
+          <button type="button" class="wb-tab active" data-snip="khqr" role="tab" aria-selected="true"><span class="wb-tab-icon">💳</span>KHQR_EMV_Engine.cs</button>
+          <button type="button" class="wb-tab" data-snip="flutter" role="tab" aria-selected="false"><span class="wb-tab-icon">📱</span>OfflineSyncBloc.dart</button>
+          <button type="button" class="wb-tab" data-snip="sql" role="tab" aria-selected="false"><span class="wb-tab-icon">📊</span>DistrictAnalytics.sql</button>
+        </div>
+        <div class="wb-actions">
+          <button type="button" class="btn wb-copy" id="wbCopyBtn" aria-label="Copy code">Copy</button>
+          <button type="button" class="btn primary wb-run" id="wbRunBtn"><span>Run Simulation ▶</span></button>
+        </div>
+      </div>
+      <div class="wb-meta">
+        <b class="wb-title" id="wbTitle">KHQR EMV Payment Core (C# ASP.NET Core)</b>
+        <span class="wb-badge" id="wbBadge">Fintech / EMVCo Standard</span>
+      </div>
+      <div class="wb-editor">
+        <pre class="wb-code"><code id="wbCode"></code></pre>
+      </div>
+      <div class="wb-terminal">
+        <div class="term-bar">
+          <span class="term-title">Console Output & Execution Stream</span>
+          <span class="term-status">🟢 Live Environment</span>
+        </div>
+        <pre class="term-output" id="wbTermOutput"><span class="term-dim">Click "Run Simulation ▶" to execute this architecture pipeline in real time.</span></pre>
+      </div>
+    </div>
   </section>
 
   <section id="projects" class="wrap reveal">
@@ -438,5 +504,10 @@
 <script src="testimonials.js?v=20261019"></script>
 <script src="visit.js?v=20261019"></script>
 <script src="festival.js?v=20261013"></script>
+<script src="sound.js"></script>
+<script src="cmd.js"></script>
+<script src="workbench.js"></script>
+<script src="hotspots.js"></script>
+<script src="hud.js"></script>
 </body>
 </html>

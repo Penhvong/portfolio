@@ -98,6 +98,7 @@
       if(!src||heroPhoto.getAttribute('src')===src)return;
       switchBtns.forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false');});
       btn.classList.add('active');btn.setAttribute('aria-selected','true');
+      if(window.playSfx)window.playSfx('switch');
       heroPhoto.style.opacity='0.25';
       heroPhoto.style.transform='scale(0.97)';
       setTimeout(function(){

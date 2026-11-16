@@ -54,13 +54,16 @@
     try{draw(text);}catch(e){err.textContent='QR error';return;}
     data.textContent=text;shown=(c==='USD'?'$'+a.toFixed(2):Math.round(a).toLocaleString('en-US')+' ៛');
     state='wait';left=TTL;stop();
+    if(window.playSfx)window.playSfx('laser');
     timer=setInterval(function(){left--;if(left<=0){stop();state='expired';}render();},1000);
     render();
   }
   make.addEventListener('click',start);
   amt.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();start();}});
   pay.addEventListener('click',function(){
-    stop();state='paid';tx='KH'+String(Date.now()).slice(-8);render();
+    stop();state='paid';tx='KH'+String(Date.now()).slice(-8);
+    if(window.playSfx)window.playSfx('success');
+    render();
   });
   neu.addEventListener('click',function(){stop();state='idle';render();amt.focus();});
   document.addEventListener('langchange',render);
