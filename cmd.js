@@ -43,6 +43,15 @@
       {id:'workbench',cat:'Tech Lab',icon:'⚡',title:'Open Architecture Workbench',desc:'Interactive C#, Flutter, and SQL sandbox',run:function(){
         location.hash='#workbench';var r=document.getElementById('wbRunBtn');if(r)r.click();
       }},
+      {id:'process',cat:'Tech Lab',icon:'⚡',title:'Open Payment & Bakong Pipeline',desc:'Simulate POS, App, Web -> Gateway -> Bakong -> SQL Server',run:function(){
+        location.hash='#architecture';if(window.ProcessPipeline)window.ProcessPipeline.runSimulation();
+      }},
+      {id:'cli',cat:'Developer',icon:'📟',title:'Open Developer Terminal (CLI)',desc:'Interactive shell with Neofetch, benchmark, and commands (Hotkey: ~)',run:function(){
+        if(window.TerminalCLI)window.TerminalCLI.open();
+      }},
+      {id:'matrix',cat:'Developer',icon:'🟩',title:'Toggle Cyberpunk Matrix Rain',desc:'Full-screen falling green digital code rain',run:function(){
+        if(window.TerminalCLI)window.TerminalCLI.toggleMatrix();
+      }},
       {id:'dashboard',cat:'Analytics',icon:'📊',title:'Open Sales Analytics Dashboard',desc:'Explore district sell-in and sell-out chart',run:function(){
         location.hash='#dashboard';
       }},

@@ -247,4 +247,18 @@
     document.addEventListener('visibilitychange',function(){document.hidden?halt():go();});
     go();
   }
+
+  // Cursor spotlight for modern interactive cards
+  if(!reduce){
+    document.addEventListener('pointermove', function(e){
+      var target = e.target;
+      if(!target || !target.closest) return;
+      var card = target.closest('.bento-card, .card, .topo-container, .wb-container, .tk');
+      if(card){
+        var rect = card.getBoundingClientRect();
+        card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+        card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+      }
+    }, {passive:true});
+  }
 })();

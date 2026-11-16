@@ -22,8 +22,8 @@
   <div class="wrap nav-in">
     <a class="brand" href="#top">Chanpenhvong<i></i></a>
     <nav>
-      <a href="#about">About</a><a href="#traits">Personality</a><a href="#skills">Skills</a>
-      <a href="#workbench">Lab</a><a href="#projects">Projects</a><a href="#journey">Journey</a><a href="#contact">Contact</a>
+      <a href="#about">About</a><a href="#skills">Skills</a>
+      <a href="#workbench">Lab</a><a href="#architecture">Process</a><a href="#projects">Projects</a><a href="#journey">Journey</a><a href="#contact">Contact</a>
     </nav>
     <button id="cmdBtn" class="cmd-pill-btn" type="button" aria-label="Open command palette" onclick="if(window.openCommandPalette)window.openCommandPalette()"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span>Commands</span><kbd>⌘K</kbd></button>
     <div class="lang">
@@ -78,6 +78,10 @@
       <span class="hud-task">KHQR Payment Architecture @ Chipmong</span>
     </div>
     <div class="hud-right">
+      <button type="button" class="hud-cmd-pill cli-trigger" aria-label="Open developer terminal">
+        <span>Terminal</span>
+        <kbd>~</kbd>
+      </button>
       <button type="button" class="hud-cmd-pill" id="hudCmdBtn">
         <span>Quick Actions</span>
         <kbd>⌘K</kbd>
@@ -293,6 +297,110 @@
     </div>
   </section>
 
+  <section id="architecture" class="wrap reveal">
+    <div class="section-head">
+      <span class="section-tag">Integration Architecture</span>
+      <h2>Client, Payment Gateway & Bakong Integration</h2>
+      <p class="sub">Unified integration connecting Client POS, Mobile App & Web with high-throughput ASP.NET Core payment processing, NBC Bakong KHQR settlement, and Microsoft SQL Server analytical queries.</p>
+    </div>
+
+    <div class="pipe-container glow">
+      <div class="pipe-toolbar">
+        <div class="pipe-toolbar-left">
+          <span class="pipe-badge">Payment & Data Pipeline</span>
+          <span class="pipe-stat-pill"><b>Channels:</b> POS · App · Web</span>
+          <span class="pipe-stat-pill"><b>Gateway:</b> ASP.NET Core 8</span>
+          <span class="pipe-stat-pill"><b>Clearing:</b> NBC Bakong KHQR</span>
+          <span class="pipe-stat-pill"><b>Database:</b> SQL Server 2022</span>
+          <span class="pipe-stat-pill"><b>Processed:</b> <span id="pipeTxnCount">3,840</span> txns</span>
+        </div>
+        <div class="pipe-toolbar-right">
+          <button type="button" class="btn primary" id="pipeSimBtn"><span>Simulate Process Flow ▶</span></button>
+        </div>
+      </div>
+
+      <div class="pipe-grid-wrap">
+        <div class="pipe-cards-grid">
+          <div class="pipe-card glow" data-pipe="clients" tabindex="0" role="button" aria-label="Inspect Client Channels">
+            <div class="pipe-card-header">
+              <span class="pipe-card-icon">📱</span>
+              <span class="pipe-card-badge">Channels</span>
+            </div>
+            <h4>POS, Mobile App & Web</h4>
+            <p>Hardware POS · Flutter Mobile Client · Web Portal</p>
+            <div class="pipe-card-status"><span class="status-dot"></span> Offline-First Queue</div>
+          </div>
+
+          <div class="pipe-card glow" data-pipe="gateway" tabindex="0" role="button" aria-label="Inspect Payment Gateway">
+            <div class="pipe-card-header">
+              <span class="pipe-card-icon">⚡</span>
+              <span class="pipe-card-badge">Core Gateway</span>
+            </div>
+            <h4>Payment Processing Gateway</h4>
+            <p>ASP.NET Core 8 · C# · Token Auth · 1.4ms Ingress</p>
+            <div class="pipe-card-status"><span class="status-dot"></span> Active Token Filter</div>
+          </div>
+
+          <div class="pipe-card glow" data-pipe="bakong" tabindex="0" role="button" aria-label="Inspect Bakong KHQR Switch">
+            <div class="pipe-card-header">
+              <span class="pipe-card-icon">🏦</span>
+              <span class="pipe-card-badge">National Switch</span>
+            </div>
+            <h4>Bakong KHQR Integration</h4>
+            <p>National Bank of Cambodia · EMVCo · Webhooks</p>
+            <div class="pipe-card-status"><span class="status-dot"></span> Real-time Webhooks</div>
+          </div>
+
+          <div class="pipe-card active glow" data-pipe="sql_server" tabindex="0" role="button" aria-label="Inspect SQL Server Database & Analytics">
+            <div class="pipe-card-header">
+              <span class="pipe-card-icon">🗄️</span>
+              <span class="pipe-card-badge">Data Ledger</span>
+            </div>
+            <h4>SQL Server & Analytics</h4>
+            <p>Microsoft SQL Server 2022 · Analytical T-SQL Queries</p>
+            <div class="pipe-card-status"><span class="status-dot"></span> Sub-14ms Query Latency</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pipe-inspector">
+        <div class="pipe-insp-header">
+          <div>
+            <div class="pipe-insp-badge" id="pipeDetailBadge">Data Ledger</div>
+            <h3 id="pipeDetailTitle">SQL Server Database & Analytics</h3>
+            <p class="pipe-insp-sub" id="pipeDetailSub">Microsoft SQL Server 2022 · High-Performance T-SQL Queries</p>
+          </div>
+          <div class="pipe-insp-status">
+            <span class="live-dot pulse"></span>
+            <span>Inspecting Active Component</span>
+          </div>
+        </div>
+
+        <p class="pipe-insp-desc" id="pipeDetailDesc">Enterprise ACID transaction ledger and reporting engine in Microsoft SQL Server. Executes high-performance analytical SELECT queries with window functions to calculate merchant cumulative totals, channel volume, and daily settlement ranking.</p>
+
+        <div class="pipe-metrics-grid" id="pipeDetailGrid"></div>
+
+        <div class="pipe-code-wrap">
+          <div class="pipe-code-head">
+            <span>Microsoft SQL Server Analytical SELECT Query</span>
+            <span class="pipe-code-tag">T-SQL / SQL Server 2022</span>
+          </div>
+          <pre class="pipe-code"><code id="pipeDetailCode"></code></pre>
+        </div>
+      </div>
+
+      <div class="pipe-feed-wrap">
+        <div class="pipe-feed-head">
+          <span>📡 Live End-to-End Execution Stream (POS/App/Web ➔ Gateway ➔ Bakong ➔ SQL Server)</span>
+          <span class="pipe-feed-tag">Real-Time Telemetry</span>
+        </div>
+        <div class="pipe-log-feed" id="pipeLogFeed">
+          <div class="pipe-log-row info"><span class="pipe-log-time">[System Ready]</span> <span class="pipe-log-msg">Integration Engine nominal. Click "Simulate Process Flow ▶" to execute complete client-to-ledger cycle.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="projects" class="wrap reveal">
     <div class="section-head">
       <span class="section-tag">Portfolio</span>
@@ -493,6 +601,61 @@
     </div>
   </div>
 </footer>
+
+<canvas id="matrixCanvas" class="matrix-canvas" style="display:none;" aria-hidden="true"></canvas>
+
+<!-- Developer CLI Drawer -->
+<aside id="cliDrawer" class="cli-drawer" role="dialog" aria-label="Developer Terminal">
+  <div class="cli-header">
+    <div class="cli-dots">
+      <span class="cli-dot red" id="cliCloseBtn" title="Close Terminal"></span>
+      <span class="cli-dot yellow" title="Terminal"></span>
+      <span class="cli-dot green" onclick="if(window.TerminalCLI)window.TerminalCLI.toggleMatrix()" title="Toggle Matrix Rain"></span>
+    </div>
+    <div class="cli-title">chanpenhvong@chipmong:~ (zsh) — v2.5.0</div>
+    <div class="cli-actions">
+      <span class="cli-badge"><kbd>ESC</kbd> to close</span>
+    </div>
+  </div>
+  <div class="cli-body" id="cliBody">
+    <div class="cli-output" id="cliOutput"></div>
+    <div class="cli-input-line">
+      <span class="cli-prompt-usr">visitor@chipmong</span>:<span class="cli-prompt-path">~</span>$&nbsp;
+      <input type="text" id="cliInput" class="cli-input" autocomplete="off" spellcheck="false" autofocus aria-label="Terminal command prompt">
+    </div>
+  </div>
+</aside>
+
+<!-- Floating Power Dock -->
+<nav class="floating-dock" id="floatingDock" aria-label="Quick Actions Dock">
+  <button type="button" class="dock-btn" onclick="if(window.openCommandPalette)window.openCommandPalette()" title="Command Palette (Ctrl+K)">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <span class="dock-label">⌘K</span>
+  </button>
+  <div class="dock-sep"></div>
+  <a href="#workbench" class="dock-btn" title="Architecture Workbench">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    <span class="dock-label">Lab</span>
+  </a>
+  <a href="#architecture" class="dock-btn" title="Payment & Bakong Integration">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    <span class="dock-label">Flow</span>
+  </a>
+  <a href="#demo" class="dock-btn" title="KHQR Demo">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+    <span class="dock-label">KHQR</span>
+  </a>
+  <button type="button" class="dock-btn cli-trigger" title="Developer Terminal (~)">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+    <span class="dock-label">CLI</span>
+  </button>
+  <div class="dock-sep"></div>
+  <button type="button" class="dock-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to Top">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+    <span class="dock-label">Top</span>
+  </button>
+</nav>
+
 <script src="i18n.js"></script>
 <script src="cv.js"></script>
 <script src="script.js?v=20261019"></script>
@@ -507,6 +670,8 @@
 <script src="sound.js"></script>
 <script src="cmd.js"></script>
 <script src="workbench.js"></script>
+<script src="topology.js"></script>
+<script src="cli.js"></script>
 <script src="hotspots.js"></script>
 <script src="hud.js"></script>
 </body>
