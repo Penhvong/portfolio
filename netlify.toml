@@ -12,9 +12,21 @@
   to = "/.netlify/functions/contact"
   status = 200
 
+[[redirects]]
+  from = "/api/visit"
+  to = "/.netlify/functions/visit"
+  status = 200
+
 [[headers]]
   for = "/*"
   [headers.values]
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Frame-Options = "DENY"
+
+# The admin page and local database only run on your own computer (node server.js)
+[[redirects]]
+  from = "/admin.html"
+  to = "/"
+  status = 302
+  force = true

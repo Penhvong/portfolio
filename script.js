@@ -84,17 +84,53 @@
     tilt.addEventListener('pointerleave',function(){tilt.style.transform='';});
   }
 
-  // Project filters
-  var chips=document.querySelectorAll('.chip'),cards=document.querySelectorAll('#projectGrid .card');
+  // Project search and category filters
+  var chips=document.querySelectorAll('.filters .chip'),cards=document.querySelectorAll('#projectGrid .card');
+  var projectSearch=document.getElementById('projectSearch');
+  var projectCount=document.getElementById('projectCount');
+  var projectEmpty=document.getElementById('projectEmpty');
+  var projectReset=document.getElementById('projectReset');
+  var activeProjectFilter='all';
+  function updateProjects(){
+    var query=projectSearch.value.trim().toLocaleLowerCase(),visible=0;
+    cards.forEach(function(card){
+      var categoryMatch=activeProjectFilter==='all'||card.dataset.cat.split(' ').indexOf(activeProjectFilter)>=0;
+      var searchable=(card.textContent+' '+card.dataset.cat).toLocaleLowerCase();
+      var matches=categoryMatch&&(!query||searchable.indexOf(query)>=0);
+      card.classList.toggle('hide',!matches);
+      if(matches)visible++;
+    });
+    projectCount.textContent=visible+' '+(visible===1?(window.t?window.t('project found'):'project found'):(window.t?window.t('projects found'):'projects found'));
+    projectEmpty.hidden=visible!==0;
+  }
   chips.forEach(function(ch){
     ch.addEventListener('click',function(){
-      chips.forEach(function(x){x.classList.remove('on');});ch.classList.add('on');
-      var f=ch.dataset.f;
-      cards.forEach(function(cd){
-        cd.classList.toggle('hide',f!=='all'&&cd.dataset.cat.split(' ').indexOf(f)<0);
-      });
+      chips.forEach(function(x){x.classList.remove('on');x.setAttribute('aria-pressed','false');});
+      ch.classList.add('on');ch.setAttribute('aria-pressed','true');
+      activeProjectFilter=ch.dataset.f;
+      updateProjects();
     });
   });
+  projectSearch.addEventListener('input',updateProjects);
+  projectReset.addEventListener('click',function(){
+    projectSearch.value='';activeProjectFilter='all';
+    chips.forEach(function(ch){
+      var active=ch.dataset.f==='all';
+      ch.classList.toggle('on',active);ch.setAttribute('aria-pressed',active?'true':'false');
+    });
+    updateProjects();projectSearch.focus();
+  });
+  document.addEventListener('keydown',function(e){
+    var target=e.target;
+    if(e.key==='/'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&target.tagName!=='INPUT'&&target.tagName!=='TEXTAREA'&&target.tagName!=='SELECT'&&!target.isContentEditable){
+      e.preventDefault();projectSearch.focus();
+    }
+    if(e.key==='Escape'&&document.activeElement===projectSearch){
+      projectSearch.value='';updateProjects();
+    }
+  });
+  document.addEventListener('langchange',updateProjects);
+  updateProjects();
 
   // Copy email
   var toast=document.getElementById('toast');
@@ -103,6 +139,18 @@
     var mail='Penhvong46@gmail.com';
     if(navigator.clipboard){navigator.clipboard.writeText(mail).then(function(){say(window.t?window.t('Email copied'):'Email copied');},function(){say(mail);});}
     else{say(mail);}
+  });
+  document.getElementById('saveContact').addEventListener('click',function(){
+    var card=[
+      'BEGIN:VCARD','VERSION:3.0','N:YOEURNG;Chanpenhvong;;;','FN:Chanpenhvong YOEURNG',
+      'TITLE:Software Developer','EMAIL;TYPE=INTERNET,WORK:Penhvong46@gmail.com',
+      'TEL;TYPE=CELL,VOICE:+855963055462','URL:https://github.com/Chanpenhvong',
+      'IMPP:tg://resolve?domain=Chan_Penhvong','END:VCARD',''
+    ].join('\r\n');
+    var file=new Blob([card],{type:'text/vcard;charset=utf-8'}),url=URL.createObjectURL(file),link=document.createElement('a');
+    link.href=url;link.download='Chanpenhvong-YOEURNG.vcf';document.body.appendChild(link);link.click();link.remove();
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    say(window.t?window.t('Contact card downloaded'):'Contact card downloaded');
   });
 
   // Scroll progress + active nav

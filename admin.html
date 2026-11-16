@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin</title>
+<style>
+:root{--bg:#f5f8fc;--card:#fff;--ink:#0f1b33;--muted:#586884;--primary:#0f8b8d;--on:#fff;--line:#d6deea;--accent:#f2a541;--bad:#c0392b}
+@media (prefers-color-scheme:dark){:root{--bg:#0b1220;--card:#141f36;--ink:#e9eef8;--muted:#9aa9c4;--primary:#3cc4c6;--on:#06222a;--line:#25355a;--accent:#f5b660;--bad:#ff7a6b}}
+*{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:860px;margin:0 auto;padding:24px 18px}
+h1{font-size:1.4rem;margin:0}header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--accent);border-radius:16px;padding:18px;margin-bottom:14px}
+input,select{width:100%;padding:11px 13px;margin:6px 0 12px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px}
+label{font-weight:600;font-size:.92rem}
+button{font:inherit;font-weight:600;padding:9px 16px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+button.p{background:var(--primary);color:var(--on);border-color:var(--primary)}button.d{color:var(--bad)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.meta{color:var(--muted);font-size:.88rem}
+.msg{white-space:pre-wrap;margin:10px 0}.tag{display:inline-block;padding:1px 10px;border-radius:999px;border:1px solid var(--line);font-size:.8rem}
+.new{border-color:var(--accent);color:var(--accent)}.err{color:var(--bad);font-weight:600;min-height:1.4em}
+[hidden]{display:none!important}
+</style>
+</head>
+<body><div class="wrap">
+<header><h1>Admin · Messages</h1><div class="row" id="bar" hidden><span class="meta" id="who"></span><button id="out" type="button">Log out</button></div></header>
+
+<form class="card" id="login" style="max-width:420px">
+  <label for="em">Email</label><input id="em" type="email" autocomplete="username" required>
+  <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" required>
+  <p class="err" id="lerr" role="alert"></p>
+  <button class="p" type="submit">Log in</button>
+</form>
+
+<main id="app" hidden>
+  <div class="row card"><label for="flt" style="margin:0">Show</label>
+    <select id="flt" style="width:auto;margin:0"><option value="all">All</option><option value="new" selected>New only</option><option value="done">Done</option></select>
+    <button id="ref" type="button">Refresh</button><span class="meta" id="count"></span></div>
+  <p class="err" id="aerr" role="alert"></p>
+  <div id="list"></div>
+</main>
+</div>
+<script src="admin.js"></script>
+</body></html>
