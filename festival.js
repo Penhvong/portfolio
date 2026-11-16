@@ -25,8 +25,13 @@
   function store(k,v){try{localStorage.setItem(k,v);}catch(e){}}
   function drop(k){try{localStorage.removeItem(k);}catch(e){}}
   function todayTheme(){return cal?cal.forDate(cal.today()):'default';}
-  // Auto is the default: only a theme the visitor picked from the menu is kept
-  function isAuto(){return !(read('festivalMode')==='manual'&&EMOJI.hasOwnProperty(read('festival')));}
+  function isAuto(){return read('festivalMode')==='auto';}
+  function initialTheme(){
+    var m=read('festivalMode');
+    if(m==='auto') return todayTheme();
+    if(m==='manual') return read('festival')||'default';
+    return 'default';
+  }
 
   function initFestival(){
     var btn=document.getElementById('festBtn');
@@ -176,7 +181,7 @@
     // Light/dark switch also changes the browser bar colour
     new MutationObserver(tint).observe(root,{attributes:true,attributeFilter:['data-theme']});
 
-    apply(isAuto()?todayTheme():read('festival'));
+    apply(initialTheme());
   }
 
   if(document.readyState==='loading'){

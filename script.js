@@ -2,17 +2,20 @@
   var root=document.documentElement;
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Light / dark mode
+  // Light / dark mode (Dark is default)
   var themeBtn=document.getElementById('theme');
-  var mq=matchMedia('(prefers-color-scheme: dark)');
   function setTheme(t,save){
     root.setAttribute('data-theme',t);
     themeBtn.setAttribute('aria-pressed',t==='dark'?'true':'false');
     if(save){try{localStorage.setItem('theme',t);}catch(e){}}
   }
-  setTheme(root.getAttribute('data-theme')||(mq.matches?'dark':'light'),false);
-  // Circular reveal from the clicked button (View Transitions API); instant change where unsupported
+  var savedTheme=null;try{savedTheme=localStorage.getItem('theme');}catch(e){}
+  setTheme(savedTheme||root.getAttribute('data-theme')||'dark',false);
+
+  // Circular reveal from the clicked button with button rotation
   window.themeSwap=function(change,origin){
+    themeBtn.classList.add('theme-spin');
+    setTimeout(function(){themeBtn.classList.remove('theme-spin');},600);
     if(typeof document.startViewTransition!=='function'||reduce){change();return;}
     var r=origin&&origin.getBoundingClientRect?origin.getBoundingClientRect():{left:innerWidth/2,top:0,width:0,height:0};
     var x=r.left+r.width/2,y=r.top+r.height/2;
@@ -27,13 +30,9 @@
     var next=root.getAttribute('data-theme')==='dark'?'light':'dark';
     window.themeSwap(function(){setTheme(next,true);},themeBtn);
   });
-  (mq.addEventListener?mq.addEventListener.bind(mq,'change'):mq.addListener.bind(mq))(function(e){
-    var saved=null;try{saved=localStorage.getItem('theme');}catch(x){}
-    if(!saved)setTheme(e.matches?'dark':'light',false);
-  });
 
   // Typing line (EDIT the list)
-  var words=['web apps with ASP.NET','KHQR payment systems','mobile apps with Flutter','forms and reports'];
+  var words=['web apps with ASP.NET','KHQR payment systems','mobile apps with Flutter','IT Innovation Strategies'];
   var el=document.getElementById('typed'),w=0,c=0,del=false;
   (function type(){
     var list=(window.getTypedWords&&window.getTypedWords())||words;var word=list[w%list.length];
@@ -73,15 +72,54 @@
     g.style.setProperty('--my',(e.clientY-r.top)+'px');
   });
 
-  // 3D tilt on the photo card
+  // 3D tilt and specular glare on the photo card
   var tilt=document.querySelector('.tilt');
   if(tilt&&!reduce&&matchMedia('(hover:hover)').matches){
     tilt.addEventListener('pointermove',function(e){
       var r=tilt.getBoundingClientRect();
       var x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
-      tilt.style.transform='perspective(800px) rotateY('+(x*10)+'deg) rotateX('+(-y*10)+'deg)';
+      tilt.style.transform='perspective(800px) rotateY('+(x*10)+'deg) rotateX('+(-y*10)+'deg) translateZ(6px)';
+      tilt.style.setProperty('--glare-x', ((x+0.5)*100).toFixed(1)+'%');
+      tilt.style.setProperty('--glare-y', ((y+0.5)*100).toFixed(1)+'%');
     });
-    tilt.addEventListener('pointerleave',function(){tilt.style.transform='';});
+    tilt.addEventListener('pointerleave',function(){
+      tilt.style.transform='';
+      tilt.style.removeProperty('--glare-x');
+      tilt.style.removeProperty('--glare-y');
+    });
+  }
+
+  // Dual photo switcher (Studio Portrait vs Desk Workstation)
+  var switchBtns=document.querySelectorAll('.photo-switcher .switch-btn');
+  var heroPhoto=document.getElementById('heroPhoto');
+  if(switchBtns.length&&heroPhoto){
+    function setPhoto(btn){
+      var src=btn.getAttribute('data-src'),alt=btn.getAttribute('data-alt');
+      if(!src||heroPhoto.getAttribute('src')===src)return;
+      switchBtns.forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false');});
+      btn.classList.add('active');btn.setAttribute('aria-selected','true');
+      heroPhoto.style.opacity='0.25';
+      heroPhoto.style.transform='scale(0.97)';
+      setTimeout(function(){
+        heroPhoto.src=src;
+        if(alt)heroPhoto.alt=alt;
+        heroPhoto.style.opacity='1';
+        heroPhoto.style.transform='scale(1)';
+      },150);
+    }
+    switchBtns.forEach(function(btn){
+      btn.addEventListener('click',function(e){e.stopPropagation();setPhoto(btn);});
+    });
+    // Clicking photo directly toggles to the other view
+    var wrapper=document.querySelector('.photo-wrapper');
+    if(wrapper){
+      wrapper.style.cursor='pointer';
+      wrapper.title=window.t?window.t('Click to switch photo'):'Click to switch photo';
+      wrapper.addEventListener('click',function(){
+        var nextBtn=[].find.call(switchBtns,function(b){return !b.classList.contains('active');});
+        if(nextBtn)setPhoto(nextBtn);
+      });
+    }
   }
 
   // Project search and category filters
@@ -143,7 +181,7 @@
   document.getElementById('saveContact').addEventListener('click',function(){
     var card=[
       'BEGIN:VCARD','VERSION:3.0','N:YOEURNG;Chanpenhvong;;;','FN:Chanpenhvong YOEURNG',
-      'TITLE:Software Developer','EMAIL;TYPE=INTERNET,WORK:Penhvong46@gmail.com',
+      'TITLE:Developer, IT - Innovation Strategy','EMAIL;TYPE=INTERNET,WORK:Penhvong46@gmail.com',
       'TEL;TYPE=CELL,VOICE:+855963055462','URL:https://github.com/Chanpenhvong',
       'IMPP:tg://resolve?domain=Chan_Penhvong','END:VCARD',''
     ].join('\r\n');

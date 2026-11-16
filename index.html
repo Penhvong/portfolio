@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Chanpenhvong YOEURNG · Developer</title>
-<meta name="description" content="Portfolio of Chanpenhvong YOEURNG,Web Developer in Phnom Penh, Cambodia.">
-<meta name="theme-color" content="#fbf8f1">
+<meta name="description" content="Portfolio of Chanpenhvong YOEURNG, Web Developer in Phnom Penh, Cambodia.">
+<meta name="theme-color" content="#070d19">
 <script src="calendar.js?v=20261013"></script>
-<script>(function(){var r=document.documentElement,t,f,m,k=window.KhmerCalendar;try{t=localStorage.getItem('theme');f=localStorage.getItem('festival');m=localStorage.getItem('festivalMode');}catch(e){}if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme',t);r.setAttribute('data-festival',(m==='manual'&&f)?f:(k?k.forDate(k.today()):'default'));})();</script>
+<script>(function(){var r=document.documentElement,t,f,m,k=window.KhmerCalendar;try{t=localStorage.getItem('theme');f=localStorage.getItem('festival');m=localStorage.getItem('festivalMode');}catch(e){}if(!t)t='dark';r.setAttribute('data-theme',t);r.setAttribute('data-festival',(m==='manual'&&f)?f:(m==='auto'&&k?k.forDate(k.today()):'default'));})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;600;700&family=Cormorant+Garamond:wght@600;700&family=Moul&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=20261019">
 </head>
 <body class="site-home">
@@ -37,8 +37,8 @@
       <button id="festBtn" class="iconbtn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Choose a festival theme"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.3-.5-.8-.5-1.2 0-1.1.9-2 2-2h2.4c2 0 3.6-1.6 3.6-3.6C21 6.6 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7" r="1"/></svg></button>
       <ul id="festList" class="lang-list fest-list" role="listbox" hidden>
         <li class="menu-title" role="presentation">Khmer festival themes</li>
-        <li role="option" data-fest="auto" aria-selected="true"><span class="sw" style="--c1:#1d3f9c;--c2:#be185d"></span><span class="em" aria-hidden="true">📅</span><span class="ft"><b>Auto (Khmer calendar)</b><span class="kh" lang="km">តាមប្រតិទិនខ្មែរ</span><small>Follows today's festival</small></span></li>
-        <li role="option" data-fest="default" aria-selected="false"><span class="sw" style="--c1:#1d3f9c;--c2:#c9a227"></span><span class="ft"><b>Default theme</b></span></li>
+        <li role="option" data-fest="default" aria-selected="true"><span class="sw" style="--c1:#0284c7;--c2:#38bdf8"></span><span class="ft"><b>Default (Tech Dark)</b><small>Next-Gen Obsidian Bento</small></span></li>
+        <li role="option" data-fest="auto" aria-selected="false"><span class="sw" style="--c1:#1d3f9c;--c2:#be185d"></span><span class="em" aria-hidden="true">📅</span><span class="ft"><b>Auto (Khmer calendar)</b><span class="kh" lang="km">តាមប្រតិទិនខ្មែរ</span><small>Follows today's festival</small></span></li>
         <li role="option" data-fest="khmer-heritage" aria-selected="false"><span class="sw" style="--c1:#8a4b2a;--c2:#c9892b"></span><span class="em" aria-hidden="true">🛕</span><span class="ft"><b>Khmer Heritage</b><span class="kh" lang="km">បេតិកភណ្ឌខ្មែរ</span><small>Angkor stone</small></span></li>
         <li role="option" data-fest="retro-phnom-penh" aria-selected="false"><span class="sw" style="--c1:#1f7a7a;--c2:#e0a526"></span><span class="em" aria-hidden="true">🎵</span><span class="ft"><b>Retro Phnom Penh</b><span class="kh" lang="km">ភ្នំពេញ ទសវត្សរ៍ ៦០</span><small>1960s</small></span></li>
         <li role="option" data-fest="meak-bochea" aria-selected="false"><span class="sw" style="--c1:#b45309;--c2:#f59e0b"></span><span class="em" aria-hidden="true">🕯️</span><span class="ft"><b>Meak Bochea</b><span class="kh" lang="km">មាឃបូជា</span><small>Feb–Mar</small></span></li>
@@ -61,30 +61,79 @@
 </header>
 
 <main id="top">
-  <div class="hero-bg"><canvas id="net"></canvas>
+  <div class="hero-bg">
+    <div class="hero-backdrop" aria-hidden="true">
+      <div class="hero-backdrop-img"></div>
+      <div class="hero-backdrop-glow"></div>
+    </div>
+    <canvas id="net"></canvas>
   <div class="scene" aria-hidden="true"><i class="orb"></i><i class="sil"></i></div>
   <section class="hero wrap">
     <div class="hero-text">
-      <p class="hello"><span class="live"></span>Open to new opportunities</p>
+      <div class="hello-wrap">
+        <p class="hello"><span class="live"></span>Open to new opportunities</p>
+        <div class="role-badge">
+          <span class="role-icon">⚡</span>
+          <span class="role-title">Developer, IT - Innovation Strategy</span>
+          <span class="role-org">@ Chipmong</span>
+        </div>
+      </div>
       <h1>Chanpenhvong<br>YOEURNG<span></span></h1>
-      <p class="job">Software Developer </p>
       <p class="role">I build <b id="typed"></b><em class="caret"></em></p>
-      <p class="lead">Software developer in Phnom Penh, Cambodia. I build web apps, mobile apps, forms, reports, and KHQR payment systems that make everyday work simpler.</p>
+      <p class="lead">Developer, IT - Innovation Strategy at Chipmong in Phnom Penh, Cambodia. I architect KHQR payment systems, build enterprise web & mobile apps, and engineer digital solutions that make everyday operations seamless.</p>
+      <div class="hero-tech-pills">
+        <span class="tech-pill"><i class="tech-icon">💳</i>KHQR Payment Core</span>
+        <span class="tech-pill"><i class="tech-icon">⚡</i>ASP.NET Core & SQL</span>
+        <span class="tech-pill"><i class="tech-icon">📱</i>Flutter Cross-Platform</span>
+        <span class="tech-pill"><i class="tech-icon">💡</i>IT Innovation Strategy</span>
+      </div>
       <div class="cta">
-        <a class="btn primary" href="#projects">See my work</a>
+        <a class="btn primary" href="#projects"><span>See my work</span><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
         <a class="btn" href="#contact">Contact me</a>
         <a class="btn cv-btn" id="cvBtn" href="cv-en.pdf" download><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5"/><path d="M5 17v4h14v-4"/></svg><span>Download CV</span></a>
         <a class="btn icon" href="https://github.com/Chanpenhvong" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.24 3.34.95.1-.74.4-1.24.72-1.53-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
       </div>
     </div>
-    <div class="hero-card tilt">
-      <img class="photo" src="photo.jpg" alt="Portrait of Chanpenhvong YOEURNG" width="350" height="440">
-      <ul>
-        <li><b>Role</b> Web Developer</li>
-        <li><b>Based in</b>Phnom Penh</li>
-        <li><b>Studied</b>Norton University</li>
-        <li><b>Speaks</b>Khmer, English</li>
-      </ul>
+    <div class="hero-card tilt" id="heroCard">
+      <div class="photo-frame">
+        <div class="photo-badges">
+          <span class="photo-badge live"><i class="badge-dot"></i><span>Available</span></span>
+          <div class="photo-switcher" role="tablist" aria-label="Photo view">
+            <button type="button" class="switch-btn active" data-src="photo.jpg" data-alt="Portrait of Chanpenhvong YOEURNG" aria-selected="true">👔 Studio</button>
+            <button type="button" class="switch-btn" data-src="photo-work.jpg" data-alt="Chanpenhvong YOEURNG at Developer Workstation" aria-selected="false">💻 Desk</button>
+          </div>
+        </div>
+        <div class="photo-wrapper">
+          <img class="photo" id="heroPhoto" src="photo.jpg" alt="Portrait of Chanpenhvong YOEURNG" width="350" height="440" fetchpriority="high">
+          <div class="photo-glare" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="hero-specs">
+        <div class="spec-row">
+          <span class="spec-lbl">Position</span>
+          <b class="spec-val">Developer, IT - Innovation Strategy</b>
+        </div>
+        <div class="spec-grid2">
+          <div class="spec-chip">
+            <span class="spec-lbl">Company</span>
+            <b class="spec-val">Chipmong</b>
+          </div>
+          <div class="spec-chip">
+            <span class="spec-lbl">Location</span>
+            <b class="spec-val">Phnom Penh, Cambodia</b>
+          </div>
+        </div>
+        <div class="spec-grid2">
+          <div class="spec-chip">
+            <span class="spec-lbl">Education</span>
+            <b class="spec-val">Norton University</b>
+          </div>
+          <div class="spec-chip">
+            <span class="spec-lbl">Languages</span>
+            <b class="spec-val">Khmer, English</b>
+          </div>
+        </div>
+      </div>
     </div>
   </section></div>
 
@@ -98,13 +147,58 @@
   </section>
 
   <section id="about" class="wrap reveal">
-    <h2>About me</h2>
-    <p>I am a software developer from Cambodia who studied Software Development at Norton University. At ICCKH I built web applications, mobile apps, forms, and reports. Today at Chipmong I work as a Web Developer on KHQR payment systems. I work with C#, ASP.NET, Flutter, SQL Server, SAP Business One, and reports, and I enjoy learning new tools, fixing hard bugs, and building software that works well for people here. Khmer is my first language.</p>
+    <div class="section-head">
+      <span class="section-tag">Profile & Architecture</span>
+      <h2>About me</h2>
+      <p class="sub">Crafting high-performance enterprise platforms and next-generation payment systems in Cambodia.</p>
+    </div>
+    <div class="about-bento">
+      <div class="bento-card bento-hero glow">
+        <div class="bento-badge">⚡ Core Philosophy</div>
+        <h3>Engineering Impact at Scale</h3>
+        <p>I am a software developer based in Phnom Penh, Cambodia, dedicated to bridging business strategy with cutting-edge engineering. Having studied Software Development at Norton University, I cut my teeth at ICCKH architecting enterprise web platforms, mobile solutions, and operational reporting engines. Currently at Chipmong as <b>Developer, IT - Innovation Strategy</b>, I engineer KHQR national payment rails, streamline mission-critical business flows, and build resilient digital products used by thousands daily.</p>
+        <div class="bento-stats-row">
+          <div class="bento-mini-stat">
+            <b>100%</b>
+            <span>Code Quality Focus</span>
+          </div>
+          <div class="bento-mini-stat">
+            <b>EMVCo</b>
+            <span>KHQR Payment Core</span>
+          </div>
+          <div class="bento-mini-stat">
+            <b>Production</b>
+            <span>Enterprise Resilient</span>
+          </div>
+        </div>
+      </div>
+      <div class="bento-card bento-feature glow">
+        <div class="bento-icon">💳</div>
+        <h4>Fintech & KHQR Core</h4>
+        <p>Architecting secure payment request pipelines, supermarket POS checkouts, and real-time transaction verification using national KHQR standards.</p>
+        <div class="bento-tags"><span>EMVCo</span><span>PostgreSQL</span><span>Docker</span></div>
+      </div>
+      <div class="bento-card bento-feature glow">
+        <div class="bento-icon">📱</div>
+        <h4>Cross-Platform Mobility</h4>
+        <p>Developing offline-first mobile apps in Flutter with seamless SQLite background sync, GPS check-in/out, and real-time geospatial field tracking.</p>
+        <div class="bento-tags"><span>Flutter</span><span>SQLite Sync</span><span>Map Geofence</span></div>
+      </div>
+      <div class="bento-card bento-feature glow">
+        <div class="bento-icon">🏗️</div>
+        <h4>Enterprise Web & Data</h4>
+        <p>Building high-throughput ASP.NET Core web architectures, SQL Server optimization, SAP Business One integrations, and multi-tier operational dashboards.</p>
+        <div class="bento-tags"><span>ASP.NET Core</span><span>SQL Server</span><span>SAP B1</span></div>
+      </div>
+    </div>
   </section>
 
   <section id="traits" class="wrap reveal">
-    <h2>My personality</h2>
-    <p class="sub">Where I sit between two sides.</p>
+    <div class="section-head">
+      <span class="section-tag">Workstyle & Balance</span>
+      <h2>My personality</h2>
+      <p class="sub">Where I sit between two sides of engineering and collaboration.</p>
+    </div>
     <div class="grid2">
       <div class="spectrum glow" data-pos="35"><div class="poles"><b>Quiet</b><b>Talkative</b></div><div class="track"><div class="dot"></div></div><small>I listen first, then speak when I can add something useful.</small></div>
       <div class="spectrum glow" data-pos="30"><div class="poles"><b>Planner</b><b>Improviser</b></div><div class="track"><div class="dot"></div></div><small>I like a clear plan, with room to change it.</small></div>
@@ -114,7 +208,11 @@
   </section>
 
   <section id="skills" class="wrap reveal">
-    <h2>Skills</h2>
+    <div class="section-head">
+      <span class="section-tag">Capabilities</span>
+      <h2>Skills</h2>
+      <p class="sub">Production-tested technologies I leverage to build robust enterprise solutions.</p>
+    </div>
     <div class="grid2">
       <div class="skill glow" data-level="85"><div><b>ASP.NET Core MVC</b><span>C# web applications</span></div><div class="bar"><i></i></div></div>
       <div class="skill glow" data-level="85"><div><b>Flutter</b><span>Mobile, offline/online sync</span></div><div class="bar"><i></i></div></div>
@@ -130,7 +228,11 @@
   </section>
 
   <section id="projects" class="wrap reveal">
-    <h2>Projects</h2>
+    <div class="section-head">
+      <span class="section-tag">Portfolio</span>
+      <h2>Projects</h2>
+      <p class="sub">Selected web platforms, mobile solutions, fintech integrations, and business analytics.</p>
+    </div>
     <div class="filters" role="group" aria-label="Filter projects">
       <button class="chip on" data-f="all" aria-pressed="true">All</button>
       <button class="chip" data-f="web" aria-pressed="false">Web</button>
@@ -157,7 +259,11 @@
         <div class="tech"><i>Norton University</i><i>Booking</i></div>
       </article>
       <article class="card glow" data-project-id="khqr-payment-integration" data-cat="web payments">
-        <span class="tag">Chipmong</span><h3>KHQR Payment Integration</h3>
+        <div class="card-header-row">
+          <span class="tag">Chipmong</span>
+          <a href="#demo" class="card-demo-link" onclick="event.stopPropagation();">⚡ Try Live Demo ↓</a>
+        </div>
+        <h3>KHQR Payment Integration</h3>
         <p>Payment request and success flow using KHQR for supermarket checkout.</p>
         <div class="tech"><i>ASP.NET</i><i>KHQR</i><i>PostgreSQL</i><i>Docker</i></div>
       </article>
@@ -191,8 +297,11 @@
   </section>
 
   <section id="dashboard" class="wrap reveal">
-    <h2>Sample sales dashboard</h2>
-    <p class="demo-intro">Made-up numbers in the style of my Sell-In and Sell-Out reports. Change the category to update the charts.</p>
+    <div class="section-head">
+      <span class="section-tag">Interactive Analytics</span>
+      <h2>Sample sales dashboard</h2>
+      <p class="demo-intro">Made-up numbers in the style of my Sell-In and Sell-Out reports. Change the category to update the charts.</p>
+    </div>
     <div class="demo glow db">
       <div class="db-top"><label class="field"><span class="lbl">Category</span><select id="dbCat"></select></label><div id="dbKpi" class="db-kpi"></div></div>
       <div class="db-grid">
@@ -203,8 +312,11 @@
   </section>
 
   <section id="demo" class="wrap reveal">
-    <h2>KHQR live demo</h2>
-    <p class="demo-intro">Try a KHQR payment flow. This is a demo only, no real money moves.</p>
+    <div class="section-head">
+      <span class="section-tag">Fintech Simulator</span>
+      <h2>KHQR live demo</h2>
+      <p class="demo-intro">Try a KHQR payment flow. This is a demo only, no real money moves.</p>
+    </div>
     <div class="demo glow">
       <div class="demo-form">
         <label class="field"><span class="lbl">Amount</span><input id="qrAmt" type="number" min="0.01" step="0.01" value="1.00" inputmode="decimal"></label>
@@ -214,7 +326,10 @@
         <p id="qrErr" class="demo-err" role="alert"></p>
       </div>
       <div class="demo-out" id="qrOut" hidden aria-live="polite">
-        <canvas id="qrCanvas" width="240" height="240"></canvas>
+        <div class="qr-box">
+          <canvas id="qrCanvas" width="240" height="240"></canvas>
+          <div class="qr-laser" aria-hidden="true"></div>
+        </div>
         <p id="qrMsg" class="demo-msg"></p>
         <p id="qrTimer" class="demo-timer"></p>
         <div class="demo-actions"><button class="btn primary" id="qrPay" type="button"></button><button class="btn" id="qrNew" type="button" hidden></button></div>
@@ -224,11 +339,27 @@
   </section>
 
   <section id="journey" class="wrap reveal">
-    <h2>My journey</h2>
+    <div class="section-head">
+      <span class="section-tag">Milestones</span>
+      <h2>My journey</h2>
+      <p class="sub">Milestones in software engineering, enterprise delivery, and digital innovation.</p>
+    </div>
     <ol class="journey">
-      <li><b>Software Development, Norton University</b><p>Learned the foundations and built the SAMAKI Appointment Booking Platform project.</p></li>
-      <li><b>Developer, ICCKH</b><p>Built web apps, mobile apps, forms, and reports.</p></li>
-      <li><b>Web Developer, Chipmong</b><p>Lead web development for KHQR payment systems.</p></li>
+      <li>
+        <span class="journey-period">2020 – 2024</span>
+        <b>Software Development, Norton University</b>
+        <p>Learned the foundations and built the SAMAKI Appointment Booking Platform project.</p>
+      </li>
+      <li>
+        <span class="journey-period">2024 – 2025</span>
+        <b>Developer, ICCKH</b>
+        <p>Built web apps, mobile apps, forms, and reports.</p>
+      </li>
+      <li>
+        <span class="journey-period">2025 – Present</span>
+        <b>Developer, IT - Innovation Strategy, Chipmong</b>
+        <p>Leading KHQR payment systems, digital initiatives, and enterprise web solutions.</p>
+      </li>
     </ol>
   </section>
 
@@ -239,13 +370,14 @@
 
   <section id="contact" class="wrap reveal">
     <div class="contact-box">
+      <span class="section-tag">Get in Touch</span>
       <h2>Let's talk</h2>
       <p>Want to work together or just say hello? Reach out any time.</p>
       <div class="contact-grid">
-        <a class="contact-item glow" href="mailto:Penhvong46@gmail.com"><b>Email</b><span>Penhvong46@gmail.com</span></a>
-        <a class="contact-item glow" href="tel:+855963055462"><b>Phone</b><span>096 305 5462</span></a>
-        <a class="contact-item glow" href="https://t.me/Chan_Penhvong" target="_blank" rel="noopener"><b>Telegram</b><span>@Chan_Penhvong</span></a>
-        <a class="contact-item glow" href="https://github.com/Chanpenhvong" target="_blank" rel="noopener"><b>GitHub</b><span>Chanpenhvong</span></a>
+        <a class="contact-item glow" href="mailto:Penhvong46@gmail.com"><span class="c-icon">📧</span><b>Email</b><span>Penhvong46@gmail.com</span></a>
+        <a class="contact-item glow" href="tel:+855963055462"><span class="c-icon">📞</span><b>Phone</b><span>096 305 5462</span></a>
+        <a class="contact-item glow" href="https://t.me/Chan_Penhvong" target="_blank" rel="noopener"><span class="c-icon">✈️</span><b>Telegram</b><span>@Chan_Penhvong</span></a>
+        <a class="contact-item glow" href="https://github.com/Chanpenhvong" target="_blank" rel="noopener"><span class="c-icon">💻</span><b>GitHub</b><span>Chanpenhvong</span></a>
       </div>
       <form id="interestForm" class="form" novalidate>
         <h3>Tell me what you're interested in</h3>
@@ -285,7 +417,16 @@
   </section>
 </main>
 
-<footer class="wrap">Made by Chanpenhvong YOEURNG in Phnom Penh.</footer>
+<footer class="wrap">
+  <div class="footer-in">
+    <p>Designed & Engineered by <b>Chanpenhvong YOEURNG</b> in Phnom Penh, Cambodia.</p>
+    <div class="footer-links">
+      <a href="#top">Back to top ↑</a>
+      <a href="https://github.com/Chanpenhvong" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://t.me/Chan_Penhvong" target="_blank" rel="noopener">Telegram</a>
+    </div>
+  </div>
+</footer>
 <script src="i18n.js"></script>
 <script src="cv.js"></script>
 <script src="script.js?v=20261019"></script>
