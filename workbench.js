@@ -86,31 +86,33 @@
     sql:{
       file:'DistrictAnalytics.sql',
       lang:'sql',
-      title:'Sell-In & Sell-Out Analytics Engine (SAP B1 & SQL Server)',
+      title:'Sell-In & Sell-Out Analytics Engine (SQL Server 2022 Enterprise)',
       badge:'Enterprise Data Pipeline',
       code:[
+        '-- High-Performance T-SQL Window Aggregation (SQL Server 2022)',
         'WITH MonthlyDistMetrics AS (',
         '    SELECT',
         '        T0.DistrictName,',
-        '        MONTH(T1.DocDate) AS [MonthNum],',
-        '        SUM(T1.DocTotal) AS [TotalSellIn],',
+        '        MONTH(T1.InvoiceDate) AS [MonthNum],',
+        '        SUM(T1.InvoiceTotal) AS [TotalSellIn],',
         '        SUM(T2.DeliveredTotal) AS [TotalSellOut],',
-        '        ROW_NUMBER() OVER (PARTITION BY MONTH(T1.DocDate) ORDER BY SUM(T2.DeliveredTotal) DESC) AS [Rank]',
-        '    FROM OINV T1',
-        '    INNER JOIN CRD1 T0 ON T1.CardCode = T0.CardCode AND T0.AdresType = \'S\'',
-        '    LEFT JOIN DLN1 T2 ON T1.DocEntry = T2.BaseEntry',
-        '    WHERE T1.DocDate >= DATEADD(month, -12, GETDATE())',
-        '    GROUP BY T0.DistrictName, MONTH(T1.DocDate)',
+        '        ROW_NUMBER() OVER (PARTITION BY MONTH(T1.InvoiceDate) ORDER BY SUM(T2.DeliveredTotal) DESC) AS [Rank]',
+        '    FROM dbo.SalesInvoices T1 WITH (NOLOCK)',
+        '    INNER JOIN dbo.CustomerDistricts T0 WITH (NOLOCK) ON T1.CustomerCode = T0.CustomerCode',
+        '    LEFT JOIN dbo.DeliveryNotes T2 WITH (NOLOCK) ON T1.InvoiceId = T2.InvoiceId',
+        '    WHERE T1.InvoiceDate >= DATEADD(month, -12, GETDATE())',
+        '      AND T1.Status = \'SETTLED\'',
+        '    GROUP BY T0.DistrictName, MONTH(T1.InvoiceDate)',
         ')',
         'SELECT DistrictName, [MonthNum], TotalSellIn, TotalSellOut,',
         '       ROUND((TotalSellOut / NULLIF(TotalSellIn, 0)) * 100, 1) AS [SellThroughPct]',
         'FROM MonthlyDistMetrics',
-        'WHERE [Rank] <= 5;',
+        'WHERE [Rank] <= 5',
         'ORDER BY [MonthNum] ASC, TotalSellOut DESC;'
       ].join('\n'),
       logs:[
         '[SQL SERVER] 📊 Parsing analytical query plan with window partitions...',
-        '[INDEX SEEK] Utilizing clustered index on OINV.DocDate and CRD1.CardCode.',
+        '[INDEX SEEK] Utilizing clustered index on dbo.SalesInvoices.InvoiceDate and CustomerCode.',
         '[JOIN ENGINE] Aggregating 142,500 invoice rows across 5 Phnom Penh districts...',
         '[COMPUTE] Top Sell-Out District: Chamkar Mon ($48,200.00 | 88.4% sell-through)',
         '[COMPUTE] Second District: Daun Penh ($39,150.00 | 82.1% sell-through)',
@@ -165,6 +167,16 @@
         runBtn.innerHTML='<span class="wb-spinner"></span> Running...';
         termOutput.innerHTML='<span class="term-highlight">Executing pipeline: '+snip.file+'...</span>\n';
 
+        var ed=document.querySelector('.wb-editor');
+        var scanline=ed&&ed.querySelector('.code-scanline');
+        if(ed&&!scanline){
+          scanline=document.createElement('div');
+          scanline.className='code-scanline active';
+          ed.appendChild(scanline);
+        }else if(scanline){
+          scanline.classList.add('active');
+        }
+
         var i=0;
         function nextLine(){
           if(i<snip.logs.length){
@@ -182,6 +194,11 @@
           }else{
             runBtn.disabled=false;
             runBtn.innerHTML='<span>Run Simulation ▶</span>';
+            if(scanline)scanline.classList.remove('active');
+            if(window.fireConfetti){
+              var rRect = runBtn.getBoundingClientRect();
+              window.fireConfetti({ x: rRect.left + rRect.width / 2, y: rRect.top });
+            }
             if(window.playSfx)window.playSfx('success');
           }
         }

@@ -46,11 +46,20 @@
       {id:'process',cat:'Tech Lab',icon:'⚡',title:'Open Payment & Bakong Pipeline',desc:'Simulate POS, App, Web -> Gateway -> Bakong -> SQL Server',run:function(){
         location.hash='#architecture';if(window.ProcessPipeline)window.ProcessPipeline.runSimulation();
       }},
+      {id:'sql',cat:'Tech Lab',icon:'🗄️',title:'Execute SQL Server 2022 Query',desc:'Run analytical window query & view live data grid',run:function(){
+        location.hash='#architecture';if(window.ProcessPipeline){window.ProcessPipeline.renderNode('sql_server');window.ProcessPipeline.executeSqlQuery();}
+      }},
       {id:'cli',cat:'Developer',icon:'📟',title:'Open Developer Terminal (CLI)',desc:'Interactive shell with Neofetch, benchmark, and commands (Hotkey: ~)',run:function(){
         if(window.TerminalCLI)window.TerminalCLI.open();
       }},
       {id:'matrix',cat:'Developer',icon:'🟩',title:'Toggle Cyberpunk Matrix Rain',desc:'Full-screen falling green digital code rain',run:function(){
         if(window.TerminalCLI)window.TerminalCLI.toggleMatrix();
+      }},
+      {id:'shortcuts',cat:'Developer',icon:'⌨️',title:'Keyboard Shortcuts Help',desc:'View all hotkeys (?, ~, S, T, M, 1-7)',run:function(){
+        if(window.ShortcutsEngine)window.ShortcutsEngine.open();
+      }},
+      {id:'confetti',cat:'Developer',icon:'🎉',title:'Celebrate with Confetti Burst',desc:'Fire colorful celebratory particle physics',run:function(){
+        if(window.fireConfetti)window.fireConfetti();
       }},
       {id:'dashboard',cat:'Analytics',icon:'📊',title:'Open Sales Analytics Dashboard',desc:'Explore district sell-in and sell-out chart',run:function(){
         location.hash='#dashboard';
@@ -58,7 +67,7 @@
       {id:'projects',cat:'Navigation',icon:'🚀',title:'Browse Featured Projects',desc:'SAMAKI, KHQR Integration, Field Sales App...',run:function(){
         location.hash='#projects';
       }},
-      {id:'skills',cat:'Navigation',icon:'🛠️',title:'View Skills & Toolkit',desc:'ASP.NET Core, Flutter, SQL, KHQR, SAP B1',run:function(){
+      {id:'skills',cat:'Navigation',icon:'🛠️',title:'View Skills & Toolkit',desc:'ASP.NET Core, Flutter, SQL Server, KHQR, ERP',run:function(){
         location.hash='#skills';
       }},
       {id:'journey',cat:'Navigation',icon:'🏆',title:'View Career Milestones',desc:'Norton University ➔ ICCKH ➔ Chipmong',run:function(){

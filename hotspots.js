@@ -2,7 +2,7 @@
 // Adds interactive glowing discovery pins on Chanpenhvong's desk photo
 (function(){
   var PINS=[
-    {id:'p1',x:28,y:35,icon:'🖥️',title:'Dual Dev Displays',desc:'VS Code, Visual Studio, and SAP Business One testing environments.'},
+    {id:'p1',x:28,y:35,icon:'🖥️',title:'Dual Dev Displays',desc:'VS Code, Visual Studio, SQL Server, and enterprise environments.'},
     {id:'p2',x:52,y:72,icon:'⌨️',title:'Mechanical Workspace',desc:'Ergonomic tactile setup engineered for high-throughput coding.'},
     {id:'p3',x:82,y:58,icon:'📱',title:'Mobile Test Rig',desc:'Real device debugging for Flutter cross-platform applications.'},
     {id:'p4',x:75,y:30,icon:'💳',title:'KHQR POS Testbed',desc:'Direct terminal testing for national QR merchant payment flows.'}

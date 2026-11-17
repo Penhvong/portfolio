@@ -253,12 +253,69 @@
     document.addEventListener('pointermove', function(e){
       var target = e.target;
       if(!target || !target.closest) return;
-      var card = target.closest('.bento-card, .card, .topo-container, .wb-container, .tk');
+      var card = target.closest('.bento-card, .card, .pipe-container, .wb-container, .tk, .pipe-card');
       if(card){
         var rect = card.getBoundingClientRect();
         card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
         card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
       }
     }, {passive:true});
+  }
+
+  // Fluid button click ripple effect
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest && e.target.closest('.btn, .chip, .hud-cmd-pill, .dock-btn, .switch-btn');
+    if(!btn) return;
+    var rect = btn.getBoundingClientRect();
+    var circle = document.createElement('span');
+    var d = Math.max(rect.width, rect.height) * 2;
+    circle.style.width = circle.style.height = d + 'px';
+    circle.style.left = (e.clientX - rect.left - d/2) + 'px';
+    circle.style.top = (e.clientY - rect.top - d/2) + 'px';
+    circle.className = 'btn-ripple-wave';
+    btn.appendChild(circle);
+    setTimeout(function(){ if(circle.parentNode) circle.parentNode.removeChild(circle); }, 600);
+  }, true);
+
+  // 3D perspective tilt for interactive cards
+  if(!reduce && matchMedia('(hover:hover) and (min-width: 768px)').matches){
+    document.addEventListener('pointermove', function(e){
+      var card = e.target.closest && e.target.closest('.card.glow, .bento-card, .pipe-card');
+      if(!card) return;
+      var r = card.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width - 0.5;
+      var y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = 'perspective(900px) rotateY(' + (x * 7) + 'deg) rotateX(' + (-y * 7) + 'deg) translateY(-4px)';
+    }, {passive:true});
+
+    document.addEventListener('pointerout', function(e){
+      var card = e.target.closest && e.target.closest('.card.glow, .bento-card, .pipe-card');
+      if(card && (!e.relatedTarget || !card.contains(e.relatedTarget))){
+        card.style.transform = '';
+      }
+    }, {passive:true});
+  }
+
+  // Luminous Cursor Halo Follower (Desktop only)
+  if(!reduce && matchMedia('(hover:hover) and (pointer:fine)').matches){
+    var halo = document.createElement('div');
+    halo.className = 'cursor-halo';
+    document.body.appendChild(halo);
+
+    var hx = -100, hy = -100, mx = -100, my = -100;
+    document.addEventListener('pointermove', function(e){
+      mx = e.clientX;
+      my = e.clientY;
+      var isHover = e.target.closest && e.target.closest('a, button, .card, .bento-card, .pipe-card, .switch-btn, .chip, .timeline-item');
+      halo.classList.toggle('hovering', !!isHover);
+    }, {passive:true});
+
+    function renderHalo(){
+      hx += (mx - hx) * 0.22;
+      hy += (my - hy) * 0.22;
+      halo.style.transform = 'translate3d(' + hx + 'px, ' + hy + 'px, 0) translate(-50%, -50%)';
+      requestAnimationFrame(renderHalo);
+    }
+    renderHalo();
   }
 })();

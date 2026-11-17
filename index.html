@@ -55,6 +55,7 @@
       </ul>
     </div>
     <button id="soundToggle" class="iconbtn sound-btn" type="button" aria-label="Toggle sound effects">
+      <span class="sound-eq" aria-hidden="true"><span class="eq-b1"></span><span class="eq-b2"></span><span class="eq-b3"></span></span>
       <svg class="sound-on" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
       <svg class="sound-off" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
     </button>
@@ -78,9 +79,17 @@
       <span class="hud-task">KHQR Payment Architecture @ Chipmong</span>
     </div>
     <div class="hud-right">
+      <div class="hud-audio-meter" id="hudAudioMeter" title="Synthesizer Audio Visualizer (Click to toggle sound)">
+        <canvas id="hudAudioCanvas" width="48" height="16"></canvas>
+        <span class="hud-audio-label">FX</span>
+      </div>
       <button type="button" class="hud-cmd-pill cli-trigger" aria-label="Open developer terminal">
         <span>Terminal</span>
         <kbd>~</kbd>
+      </button>
+      <button type="button" class="hud-cmd-pill" onclick="if(window.ShortcutsEngine)window.ShortcutsEngine.toggle()" aria-label="Open keyboard shortcuts">
+        <span>Hotkeys</span>
+        <kbd>?</kbd>
       </button>
       <button type="button" class="hud-cmd-pill" id="hudCmdBtn">
         <span>Quick Actions</span>
@@ -107,6 +116,11 @@
           <span class="role-title">Developer, IT - Innovation Strategy</span>
           <span class="role-org">@ Chipmong</span>
         </div>
+        <div class="hero-live-status glow">
+          <span class="live-dot pulse"></span>
+          <span class="live-stat-text">Phnom Penh Node 🇰🇭 · <b>Active Sprint:</b> KHQR Core Switch</span>
+          <span class="live-stat-ping">1.4ms</span>
+        </div>
       </div>
       <h1>Chanpenhvong<br>YOEURNG<span></span></h1>
       <p class="role">I build <b id="typed"></b><em class="caret"></em></p>
@@ -124,7 +138,7 @@
         <a class="btn icon" href="https://github.com/Chanpenhvong" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.24 3.34.95.1-.74.4-1.24.72-1.53-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
       </div>
     </div>
-    <div class="hero-card tilt" id="heroCard">
+    <div class="hero-card tilt border-beam" id="heroCard">
       <div class="photo-frame">
         <div class="photo-badges">
           <span class="photo-badge live"><i class="badge-dot"></i><span>Available</span></span>
@@ -136,6 +150,20 @@
         <div class="photo-wrapper">
           <img class="photo" id="heroPhoto" src="photo.jpg" alt="Portrait of Chanpenhvong YOEURNG" width="350" height="440" fetchpriority="high">
           <div class="photo-glare" aria-hidden="true"></div>
+          
+          <!-- Floating 3D Hologram Telemetry Badges -->
+          <div class="hero-floating-pill pill-tr glow" aria-hidden="true">
+            <span class="fp-icon">💳</span>
+            <div class="fp-info"><b>18ms KHQR</b><small>NBC Bakong Core</small></div>
+          </div>
+          <div class="hero-floating-pill pill-bl glow" aria-hidden="true">
+            <span class="fp-icon">🗄️</span>
+            <div class="fp-info"><b>SQL Server</b><small>ACID Ledger</small></div>
+          </div>
+          <div class="hero-floating-pill pill-br glow" aria-hidden="true">
+            <span class="fp-icon">⚡</span>
+            <div class="fp-info"><b>1.4ms Ingress</b><small>ASP.NET Core 8</small></div>
+          </div>
         </div>
       </div>
       <div class="hero-specs">
@@ -167,7 +195,7 @@
     </div>
   </section></div>
 
-  <div class="marquee" aria-hidden="true"><div class="marquee-in"><span>ASP.NET Core MVC</span><span>Flutter</span><span>KHQR</span><span>SQL Server</span><span>SAP Business One</span><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Laravel</span><span>Power BI</span><span>Figma</span><span>Git</span><span>ASP.NET Core MVC</span><span>Flutter</span><span>KHQR</span><span>SQL Server</span><span>SAP Business One</span><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Laravel</span><span>Power BI</span><span>Figma</span><span>Git</span></div></div>
+  <div class="marquee" aria-hidden="true"><div class="marquee-in"><span>ASP.NET Core MVC</span><span>Flutter</span><span>KHQR</span><span>SQL Server 2022</span><span>Enterprise ERP</span><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Laravel</span><span>Power BI</span><span>Figma</span><span>Git</span><span>ASP.NET Core MVC</span><span>Flutter</span><span>KHQR</span><span>SQL Server 2022</span><span>Enterprise ERP</span><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Laravel</span><span>Power BI</span><span>Figma</span><span>Git</span></div></div>
 
   <section class="wrap stats reveal">
     <div><b data-count="2">0</b><span>Companies</span></div>
@@ -217,8 +245,8 @@
       <div class="bento-card bento-feature glow">
         <div class="bento-icon">🏗️</div>
         <h4>Enterprise Web & Data</h4>
-        <p>Building high-throughput ASP.NET Core web architectures, SQL Server optimization, SAP Business One integrations, and multi-tier operational dashboards.</p>
-        <div class="bento-tags"><span>ASP.NET Core</span><span>SQL Server</span><span>SAP B1</span></div>
+        <p>Building high-throughput ASP.NET Core web architectures, SQL Server optimization, enterprise ERP integrations, and multi-tier operational dashboards.</p>
+        <div class="bento-tags"><span>ASP.NET Core</span><span>SQL Server</span><span>Enterprise ERP</span></div>
       </div>
     </div>
   </section>
@@ -240,19 +268,57 @@
   <section id="skills" class="wrap reveal">
     <div class="section-head">
       <span class="section-tag">Capabilities</span>
-      <h2>Skills</h2>
+      <h2>Skills & Architecture Matrix</h2>
       <p class="sub">Production-tested technologies I leverage to build robust enterprise solutions.</p>
     </div>
-    <div class="grid2">
-      <div class="skill glow" data-level="85"><div><b>ASP.NET Core MVC</b><span>C# web applications</span></div><div class="bar"><i></i></div></div>
-      <div class="skill glow" data-level="85"><div><b>Flutter</b><span>Mobile, offline/online sync</span></div><div class="bar"><i></i></div></div>
-      <div class="skill glow" data-level="85"><div><b>KHQR payments</b><span>Payment integration</span></div><div class="bar"><i></i></div></div>
-      <div class="skill glow" data-level="80"><div><b>SQL Server and SQLite</b><span>Databases</span></div><div class="bar"><i></i></div></div>
-      <div class="skill glow" data-level="80"><div><b>HTML, CSS, JavaScript</b><span>Front end</span></div><div class="bar"><i></i></div></div>
-      <div class="skill glow" data-level="75"><div><b>RDLC and Crystal Reports</b><span>Reporting</span></div><div class="bar"><i></i></div></div>
+
+    <div class="skills-view-toggle">
+      <button type="button" class="skills-vbtn active" id="btnSkillsRadar">🕸️ Competency Hexagon</button>
+      <button type="button" class="skills-vbtn" id="btnSkillsBars">📊 Proficiency List</button>
+    </div>
+
+    <!-- Interactive Architecture Competency Hexagon Radar -->
+    <div class="skills-radar-wrap glow border-beam" id="skillsRadarWrap">
+      <div class="radar-layout">
+        <div class="radar-svg-col">
+          <svg id="skillsRadarSvg" viewBox="0 0 460 380" class="radar-svg" role="img" aria-label="Architecture Competency Radar Chart">
+            <defs>
+              <linearGradient id="radarMeshGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00f5d4" stop-opacity="0.4"/>
+                <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="#a78bfa" stop-opacity="0.15"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="radar-detail-col">
+          <div class="radar-card glow" id="radarCard">
+            <div class="radar-card-badge" id="radarCardBadge">Pillar Focus · 98% Senior Mastery</div>
+            <h3 id="radarCardTitle">FinTech & KHQR Integration</h3>
+            <p id="radarCardDesc">Architecting national payment rails, EMVCo-compliant TLV payload generation, CRC16 validation, and real-time NBC Bakong clearing webhooks with sub-20ms settlement latency.</p>
+            <div class="radar-metrics-row" id="radarCardMetrics">
+              <div class="radar-stat"><b>18ms</b><span>Clearing Latency</span></div>
+              <div class="radar-stat"><b>100%</b><span>ACID Reconciliation</span></div>
+              <div class="radar-stat"><b>EMVCo</b><span>National Standard</span></div>
+            </div>
+            <div class="radar-tags-row" id="radarCardTags">
+              <span>EMVCo TLV</span><span>CRC16-CCITT</span><span>HMAC-SHA256</span><span>ASP.NET Core 8</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2" id="skillsGridBars" style="display:none">
+      <div class="skill glow" data-level="95"><div><b>ASP.NET Core 8 & C#</b><span>High-throughput Kestrel web API</span></div><div class="bar"><i></i></div></div>
+      <div class="skill glow" data-level="90"><div><b>Flutter Cross-Platform</b><span>Mobile, offline/online SQLite sync</span></div><div class="bar"><i></i></div></div>
+      <div class="skill glow" data-level="98"><div><b>KHQR Payments & NBC Bakong</b><span>National payment switch integration</span></div><div class="bar"><i></i></div></div>
+      <div class="skill glow" data-level="94"><div><b>SQL Server 2022 & T-SQL</b><span>Analytical queries & index tuning</span></div><div class="bar"><i></i></div></div>
+      <div class="skill glow" data-level="92"><div><b>HTML, CSS, Modern JS</b><span>Interactive frontend & animations</span></div><div class="bar"><i></i></div></div>
+      <div class="skill glow" data-level="86"><div><b>Docker, Git, CI/CD & Reports</b><span>Containerization & analytics</span></div><div class="bar"><i></i></div></div>
     </div>
     <h3>Full toolkit</h3>
-    <div class="toolkit"><div class="tk glow"><h3>Mobile</h3><ul class="chips"><li>Flutter</li><li>Offline/online sync</li><li>SQLite</li><li>GPS and maps</li></ul></div><div class="tk glow"><h3>Web</h3><ul class="chips"><li>C#</li><li>ASP.NET Core MVC</li><li>ASP.NET MVC</li><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Laravel (PHP)</li></ul></div><div class="tk glow"><h3>Data and reports</h3><ul class="chips"><li>SQL Server</li><li>MySQL</li><li>PostgreSQL</li><li>RDLC</li><li>Crystal Reports</li><li>Power BI</li></ul></div><div class="tk glow"><h3>Integration</h3><ul class="chips"><li>SAP Business One</li><li>KHQR payments</li></ul></div><div class="tk glow"><h3>Tools and design</h3><ul class="chips"><li>Git</li><li>Figma</li><li>Docker</li><li>Leaflet.js</li></ul></div></div>
+    <div class="toolkit"><div class="tk glow"><h3>Mobile</h3><ul class="chips"><li>Flutter</li><li>Offline/online sync</li><li>SQLite</li><li>GPS and maps</li></ul></div><div class="tk glow"><h3>Web</h3><ul class="chips"><li>C#</li><li>ASP.NET Core MVC</li><li>ASP.NET MVC</li><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Laravel (PHP)</li></ul></div><div class="tk glow"><h3>Data and reports</h3><ul class="chips"><li>SQL Server 2022</li><li>MySQL</li><li>PostgreSQL</li><li>RDLC</li><li>Crystal Reports</li><li>Power BI</li></ul></div><div class="tk glow"><h3>Integration</h3><ul class="chips"><li>Enterprise ERP Integration</li><li>KHQR payments</li></ul></div><div class="tk glow"><h3>Tools and design</h3><ul class="chips"><li>Git</li><li>Figma</li><li>Docker</li><li>Leaflet.js</li></ul></div></div>
     <h3>Interests</h3>
     <ul class="chips"><li>Learning new tech</li><li>Solving hard bugs</li><li>Music</li><li>Travel</li><li>Coffee</li></ul>
   </section>
@@ -304,7 +370,7 @@
       <p class="sub">Unified integration connecting Client POS, Mobile App & Web with high-throughput ASP.NET Core payment processing, NBC Bakong KHQR settlement, and Microsoft SQL Server analytical queries.</p>
     </div>
 
-    <div class="pipe-container glow">
+    <div class="pipe-container glow border-beam">
       <div class="pipe-toolbar">
         <div class="pipe-toolbar-left">
           <span class="pipe-badge">Payment & Data Pipeline</span>
@@ -315,50 +381,114 @@
           <span class="pipe-stat-pill"><b>Processed:</b> <span id="pipeTxnCount">3,840</span> txns</span>
         </div>
         <div class="pipe-toolbar-right">
+          <div class="pipe-view-toggle" role="group" aria-label="Pipeline view mode">
+            <button type="button" class="pipe-view-btn active" id="btnViewCards">🗂️ Grid</button>
+            <button type="button" class="pipe-view-btn" id="btnViewCanvas">🌐 Cyber Visualizer</button>
+          </div>
           <button type="button" class="btn primary" id="pipeSimBtn"><span>Simulate Process Flow ▶</span></button>
+        </div>
+      </div>
+
+      <div class="pipe-flow-bus" id="pipeFlowBus" aria-label="End-to-end data pipeline flow">
+        <div class="bus-node" data-pipe-target="clients" tabindex="0" role="button" aria-label="Switch to Client Ingress">
+          <div class="bus-icon-wrap"><span class="bus-icon">📱</span></div>
+          <div class="bus-info"><span class="bus-num">STEP 01</span><b>Client Ingress</b><small>POS · App · Web</small></div>
+        </div>
+        <div class="bus-wire" data-wire="1">
+          <div class="wire-line"></div>
+          <div class="wire-pulse"></div>
+        </div>
+        <div class="bus-node" data-pipe-target="gateway" tabindex="0" role="button" aria-label="Switch to Payment Gateway">
+          <div class="bus-icon-wrap"><span class="bus-icon">⚡</span></div>
+          <div class="bus-info"><span class="bus-num">STEP 02</span><b>Payment Gateway</b><small>ASP.NET Core 8</small></div>
+        </div>
+        <div class="bus-wire" data-wire="2">
+          <div class="wire-line"></div>
+          <div class="wire-pulse"></div>
+        </div>
+        <div class="bus-node" data-pipe-target="bakong" tabindex="0" role="button" aria-label="Switch to Bakong KHQR">
+          <div class="bus-icon-wrap"><span class="bus-icon">🏦</span></div>
+          <div class="bus-info"><span class="bus-num">STEP 03</span><b>Bakong KHQR</b><small>National Switch</small></div>
+        </div>
+        <div class="bus-wire" data-wire="3">
+          <div class="wire-line"></div>
+          <div class="wire-pulse"></div>
+        </div>
+        <div class="bus-node active" data-pipe-target="sql_server" tabindex="0" role="button" aria-label="Switch to SQL Server 2022">
+          <div class="bus-icon-wrap"><span class="bus-icon">🗄️</span></div>
+          <div class="bus-info"><span class="bus-num">STEP 04</span><b>SQL Server 2022</b><small>ACID Ledger & Analytics</small></div>
+        </div>
+      </div>
+
+      <!-- Real-Time Interactive Cyber Topology Canvas Visualizer -->
+      <div class="pipe-canvas-wrap glow" id="pipeCanvasWrap" style="display:none">
+        <div class="canvas-top-bar">
+          <div class="canvas-legend">
+            <span class="c-leg-item"><i class="c-dot cyan"></i> Client Ingress</span>
+            <span class="c-leg-item"><i class="c-dot purple"></i> ASP.NET Core Gateway</span>
+            <span class="c-leg-item"><i class="c-dot amber"></i> NBC Bakong Switch</span>
+            <span class="c-leg-item"><i class="c-dot green"></i> SQL Server 2022 Cluster</span>
+          </div>
+          <button type="button" class="btn-ghost-icon" id="canvasSurgeBtn">⚡ Surge Particle Storm</button>
+        </div>
+        <div class="canvas-viewport">
+          <canvas id="topologyCanvas" width="940" height="320"></canvas>
+          <div class="canvas-node-tip" id="canvasNodeTip" hidden></div>
         </div>
       </div>
 
       <div class="pipe-grid-wrap">
         <div class="pipe-cards-grid">
-          <div class="pipe-card glow" data-pipe="clients" tabindex="0" role="button" aria-label="Inspect Client Channels">
+          <div class="pipe-card glow" data-pipe="clients" tabindex="0" role="button" aria-label="Inspect Client Edge">
             <div class="pipe-card-header">
               <span class="pipe-card-icon">📱</span>
-              <span class="pipe-card-badge">Channels</span>
+              <span class="pipe-card-badge">CLIENT EDGE</span>
             </div>
-            <h4>POS, Mobile App & Web</h4>
-            <p>Hardware POS · Flutter Mobile Client · Web Portal</p>
-            <div class="pipe-card-status"><span class="status-dot"></span> Offline-First Queue</div>
+            <h4>Mobile POS Client</h4>
+            <p>Flutter · SQLite Queue · Hardware POS & Web</p>
+            <div class="pipe-card-status"><span class="status-dot"></span> Offline-First Ready</div>
           </div>
 
-          <div class="pipe-card glow" data-pipe="gateway" tabindex="0" role="button" aria-label="Inspect Payment Gateway">
+          <div class="pipe-card-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+          </div>
+
+          <div class="pipe-card glow" data-pipe="gateway" tabindex="0" role="button" aria-label="Inspect Core Gateway">
             <div class="pipe-card-header">
               <span class="pipe-card-icon">⚡</span>
-              <span class="pipe-card-badge">Core Gateway</span>
+              <span class="pipe-card-badge">CORE GATEWAY</span>
             </div>
-            <h4>Payment Processing Gateway</h4>
-            <p>ASP.NET Core 8 · C# · Token Auth · 1.4ms Ingress</p>
-            <div class="pipe-card-status"><span class="status-dot"></span> Active Token Filter</div>
+            <h4>API Gateway & Auth</h4>
+            <p>ASP.NET Core 8 · C# · Token Filter & Reverse Proxy</p>
+            <div class="pipe-card-status"><span class="status-dot"></span> 1.4ms Ingress</div>
           </div>
 
-          <div class="pipe-card glow" data-pipe="bakong" tabindex="0" role="button" aria-label="Inspect Bakong KHQR Switch">
+          <div class="pipe-card-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+          </div>
+
+          <div class="pipe-card glow" data-pipe="bakong" tabindex="0" role="button" aria-label="Inspect National Switch">
             <div class="pipe-card-header">
               <span class="pipe-card-icon">🏦</span>
-              <span class="pipe-card-badge">National Switch</span>
+              <span class="pipe-card-badge">NATIONAL SWITCH</span>
             </div>
-            <h4>Bakong KHQR Integration</h4>
-            <p>National Bank of Cambodia · EMVCo · Webhooks</p>
+            <h4>Bakong KHQR</h4>
+            <p>EMVCo · CRC16 Validator · Instant Clearing</p>
             <div class="pipe-card-status"><span class="status-dot"></span> Real-time Webhooks</div>
           </div>
 
-          <div class="pipe-card active glow" data-pipe="sql_server" tabindex="0" role="button" aria-label="Inspect SQL Server Database & Analytics">
+          <div class="pipe-card-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+          </div>
+
+          <div class="pipe-card active glow" data-pipe="sql_server" tabindex="0" role="button" aria-label="Inspect Enterprise Ledger">
             <div class="pipe-card-header">
               <span class="pipe-card-icon">🗄️</span>
-              <span class="pipe-card-badge">Data Ledger</span>
+              <span class="pipe-card-badge">ENTERPRISE LEDGER</span>
             </div>
-            <h4>SQL Server & Analytics</h4>
-            <p>Microsoft SQL Server 2022 · Analytical T-SQL Queries</p>
-            <div class="pipe-card-status"><span class="status-dot"></span> Sub-14ms Query Latency</div>
+            <h4>SQL Server 2022</h4>
+            <p>ACID Ledger · Analytical T-SQL Queries & Window Partitions</p>
+            <div class="pipe-card-status"><span class="status-dot"></span> Auto-Reconciliation</div>
           </div>
         </div>
       </div>
@@ -376,16 +506,56 @@
           </div>
         </div>
 
+        <div class="pipe-subchannel-bar" id="pipeSubchannels" hidden>
+          <span class="subchannel-lbl">Ingress Client:</span>
+          <button type="button" class="subchannel-pill active" data-sub="flutter">📱 Flutter Mobile App</button>
+          <button type="button" class="subchannel-pill" data-sub="pos">🖥️ Hardware POS Terminal</button>
+          <button type="button" class="subchannel-pill" data-sub="web">🌐 E-Commerce Web Portal</button>
+        </div>
+
         <p class="pipe-insp-desc" id="pipeDetailDesc">Enterprise ACID transaction ledger and reporting engine in Microsoft SQL Server. Executes high-performance analytical SELECT queries with window functions to calculate merchant cumulative totals, channel volume, and daily settlement ranking.</p>
 
         <div class="pipe-metrics-grid" id="pipeDetailGrid"></div>
 
         <div class="pipe-code-wrap">
           <div class="pipe-code-head">
-            <span>Microsoft SQL Server Analytical SELECT Query</span>
-            <span class="pipe-code-tag">T-SQL / SQL Server 2022</span>
+            <div class="pipe-code-head-left">
+              <span id="pipeCodeTitle">Microsoft SQL Server Analytical SELECT Query</span>
+              <span class="pipe-code-tag" id="pipeCodeTag">T-SQL / SQL Server 2022</span>
+            </div>
+            <div class="pipe-code-head-right" id="pipeSqlActions">
+              <select id="pipeSqlVariantSelect" class="pipe-select-small" aria-label="Choose SQL query variant">
+                <option value="reconciliation">Window Function (Running Totals)</option>
+                <option value="channels">Channel Volumes & Latency</option>
+                <option value="daily_summary">Daily Settlement Reconciliation</option>
+              </select>
+              <button type="button" class="btn primary btn-small" id="pipeSqlRunBtn">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <span>Execute T-SQL Query ▶</span>
+              </button>
+            </div>
           </div>
           <pre class="pipe-code"><code id="pipeDetailCode"></code></pre>
+
+          <!-- Live SQL Server 2022 Results Studio Grid -->
+          <div class="pipe-sql-results open" id="pipeSqlResults">
+            <div class="sql-results-header">
+              <div class="sql-results-meta">
+                <span class="sql-status-badge">🟢 Query Succeeded</span>
+                <span class="sql-meta-item"><b id="sqlRowsCount">4</b> rows returned</span>
+                <span class="sql-meta-item">Duration: <b id="sqlDuration">8.2ms</b></span>
+                <span class="sql-meta-item">Engine: <b>SQL Server 2022 Enterprise</b></span>
+                <span class="sql-meta-item">Plan: <b>Clustered Index Seek (NOLOCK)</b></span>
+              </div>
+              <div class="sql-view-tabs" role="tablist">
+                <button type="button" class="sql-tab-btn active" id="sqlTabGridBtn" data-sql-tab="grid">📊 Tabular Grid</button>
+                <button type="button" class="sql-tab-btn" id="sqlTabPlanBtn" data-sql-tab="plan">⚡ Execution Plan Tree</button>
+                <button type="button" class="btn-ghost-icon" id="sqlGridExportBtn" title="Copy results as JSON">📋 Copy JSON</button>
+              </div>
+            </div>
+            <div class="sql-table-responsive" id="sqlTableContainer"></div>
+            <div class="sql-plan-tree-wrap" id="sqlPlanTreeWrap" style="display:none"></div>
+          </div>
         </div>
       </div>
 
@@ -459,7 +629,7 @@
       <article class="card glow" data-project-id="sell-in-sell-out-report" data-cat="reports">
         <span class="tag">ICCKH</span><h3>Sell-In and Sell-Out Report</h3>
         <p>SQL reports on sell-in and sell-out by district and product category.</p>
-        <div class="tech"><i>SAP B1</i><i>SQL</i></div>
+        <div class="tech"><i>SQL Server 2022</i><i>T-SQL Analytics</i></div>
       </article>
       <article class="card glow" data-project-id="price-request-approval" data-cat="web reports">
         <span class="tag">ICCKH</span><h3>Price Request and Approval System</h3>
@@ -477,7 +647,11 @@
       <p class="demo-intro">Made-up numbers in the style of my Sell-In and Sell-Out reports. Change the category to update the charts.</p>
     </div>
     <div class="demo glow db">
-      <div class="db-top"><label class="field"><span class="lbl">Category</span><select id="dbCat"></select></label><div id="dbKpi" class="db-kpi"></div></div>
+      <div class="db-top">
+        <label class="field"><span class="lbl">Category</span><select id="dbCat"></select></label>
+        <button type="button" class="btn-ghost-icon" id="dbExportBtn" style="margin-left:auto">📥 Export CSV</button>
+        <div id="dbKpi" class="db-kpi"></div>
+      </div>
       <div class="db-grid">
         <div><svg id="dbChart" viewBox="0 0 560 220" role="img" aria-label="Monthly sell-in and sell-out chart"></svg><div id="dbLegend" class="db-legend"></div></div>
         <div><h3 class="db-h">Top districts by sell-out</h3><div id="dbRank"></div></div>
@@ -492,6 +666,18 @@
       <p class="demo-intro">Try a KHQR payment flow. This is a demo only, no real money moves.</p>
     </div>
     <div class="demo glow">
+      <div class="khqr-rate-bar">
+        <div class="rate-bar-left">
+          <span class="rate-badge">NBC Official Rate</span>
+          <span class="rate-val">1.00 USD = <b>4,100 KHR</b></span>
+        </div>
+        <div class="rate-presets" role="group" aria-label="Quick amount presets">
+          <button type="button" class="rate-pill" data-cur="USD" data-amt="1.00">$1.00 (4,100 ៛)</button>
+          <button type="button" class="rate-pill" data-cur="USD" data-amt="5.00">$5.00 (20,500 ៛)</button>
+          <button type="button" class="rate-pill" data-cur="KHR" data-amt="10000">10,000 ៛ ($2.44)</button>
+          <button type="button" class="rate-pill" data-cur="KHR" data-amt="40000">40,000 ៛ ($9.76)</button>
+        </div>
+      </div>
       <div class="demo-form">
         <label class="field"><span class="lbl">Amount</span><input id="qrAmt" type="number" min="0.01" step="0.01" value="1.00" inputmode="decimal"></label>
         <label class="field"><span class="lbl">Currency</span><select id="qrCur"><option value="USD">USD</option><option value="KHR">KHR</option></select></label>
@@ -507,34 +693,165 @@
         <p id="qrMsg" class="demo-msg"></p>
         <p id="qrTimer" class="demo-timer"></p>
         <div class="demo-actions"><button class="btn primary" id="qrPay" type="button"></button><button class="btn" id="qrNew" type="button" hidden></button></div>
-        <details><summary>Show QR data</summary><code id="qrData"></code></details>
+        <details class="emv-decoder-details" id="emvDecoderDetails">
+          <summary class="emv-decoder-btn">🔍 Inspect EMVCo Tag-Length-Value (TLV) Protocol</summary>
+          <div class="emv-decoder-card">
+            <div class="emv-decoder-head">
+              <span>National EMVCo KHQR TLV Byte Specification</span>
+              <span class="pipe-code-tag">NBC / EMVCo Standard</span>
+            </div>
+            <div class="emv-tag-list" id="emvTagList"></div>
+            <div class="emv-raw-footer">
+              <span class="emv-raw-lbl">RAW PAYLOAD:</span>
+              <code id="qrData"></code>
+            </div>
+          </div>
+        </details>
+
+        <!-- Realistic Thermal POS Checkout Receipt -->
+        <div class="pos-receipt-wrap" id="posReceiptWrap" hidden>
+          <div class="receipt-slot-top" aria-hidden="true"><span class="slot-line"></span></div>
+          <div class="pos-receipt" id="posReceipt">
+            <div class="receipt-cut-edge" aria-hidden="true"></div>
+            <div class="receipt-head">
+              <div class="receipt-logo">🛒 CHIPMONG RETAIL</div>
+              <div class="receipt-sub">Phnom Penh Supermarket Node 🇰🇭</div>
+              <div class="receipt-meta">Lane #04 · Cashier #2914 · Terminal REG-04</div>
+            </div>
+            <div class="receipt-divider">================================</div>
+            <div class="receipt-items" id="receiptItems">
+              <div class="r-item"><span>1x Supermarket Basket Checkout</span><span id="rItemPrice">$1.00</span></div>
+            </div>
+            <div class="receipt-divider">--------------------------------</div>
+            <div class="receipt-totals">
+              <div class="r-row"><b>TOTAL USD:</b><b class="r-val" id="rTotalUsd">$1.00</b></div>
+              <div class="r-row"><span>KHR EQUIVALENT:</span><span class="r-val" id="rTotalKhr">4,100 ៛</span></div>
+              <div class="r-row"><span>PAYMENT METHOD:</span><span>NBC BAKONG KHQR</span></div>
+              <div class="r-row"><span>SETTLEMENT SPEED:</span><b style="color:#10b981">18ms (Instant)</b></div>
+              <div class="r-row"><span>TXN REFERENCE:</span><span id="rTxnRef">KH-94810284</span></div>
+              <div class="r-row"><span>LEDGER POSTING:</span><b style="color:#38bdf8">SQL Server 2022 ✅</b></div>
+            </div>
+            <div class="receipt-divider">================================</div>
+            <div class="receipt-foot">
+              <p>Automated Real-Time Reconciliation</p>
+              <p>Thank you for shopping at Chipmong!</p>
+              <div class="receipt-barcode">||| | |||| | |||||| || | |||| |||</div>
+            </div>
+            <div class="receipt-actions">
+              <button type="button" class="btn btn-sm" id="rCopyBtn">📋 Copy Receipt</button>
+              <button type="button" class="btn btn-sm" id="rPrintBtn">🖨️ Print Receipt</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <section id="journey" class="wrap reveal">
     <div class="section-head">
-      <span class="section-tag">Milestones</span>
-      <h2>My journey</h2>
-      <p class="sub">Milestones in software engineering, enterprise delivery, and digital innovation.</p>
+      <span class="section-tag">Engineering Milestones</span>
+      <h2>My engineering journey</h2>
+      <p class="sub">Key stages in software engineering, enterprise delivery, and digital innovation in Cambodia.</p>
     </div>
-    <ol class="journey">
-      <li>
-        <span class="journey-period">2020 – 2024</span>
-        <b>Software Development, Norton University</b>
-        <p>Learned the foundations and built the SAMAKI Appointment Booking Platform project.</p>
-      </li>
-      <li>
-        <span class="journey-period">2024 – 2025</span>
-        <b>Developer, ICCKH</b>
-        <p>Built web apps, mobile apps, forms, and reports.</p>
-      </li>
-      <li>
-        <span class="journey-period">2025 – Present</span>
-        <b>Developer, IT - Innovation Strategy, Chipmong</b>
-        <p>Leading KHQR payment systems, digital initiatives, and enterprise web solutions.</p>
-      </li>
-    </ol>
+    <div class="journey-timeline">
+      <div class="timeline-track-line" aria-hidden="true"></div>
+      
+      <article class="timeline-item glow" data-year="2020 - 2024">
+        <div class="timeline-dot-wrap">
+          <span class="timeline-dot">🎓</span>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-header">
+            <span class="timeline-period">2020 – 2024</span>
+            <span class="timeline-badge">Academic Foundations</span>
+          </div>
+          <h3>Software Development Bachelor</h3>
+          <h4 class="timeline-org">Norton University · Phnom Penh</h4>
+          <p>Mastered software engineering fundamentals, OOP architecture, algorithms, and relational database systems. Architected and shipped the SAMAKI Appointment Booking Platform.</p>
+          <div class="timeline-tags">
+            <span>C# & .NET</span>
+            <span>ASP.NET MVC</span>
+            <span>SQL Server</span>
+            <span>OOP Architecture</span>
+          </div>
+          <div class="timeline-metric">
+            <b>Key Milestone:</b> Designed complete SAMAKI appointment scheduling and customer booking engine.
+          </div>
+          <details class="timeline-deep-dive">
+            <summary>Inspect Architecture & Capstone Deliverables ▾</summary>
+            <div class="dd-content">
+              <div class="dd-row"><b>Architecture:</b> N-Tier Layered Architecture with C# ASP.NET MVC & MS SQL Server</div>
+              <div class="dd-row"><b>Capstone:</b> SAMAKI Appointment Scheduling & Booking Engine for multi-department workflows</div>
+              <div class="dd-row"><b>Impact:</b> Shipped full appointment scheduling platform with identity auth & transactional integrity</div>
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="timeline-item glow" data-year="2024 - 2025">
+        <div class="timeline-dot-wrap">
+          <span class="timeline-dot">🏢</span>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-header">
+            <span class="timeline-period">2024 – 2025</span>
+            <span class="timeline-badge">Enterprise Production</span>
+          </div>
+          <h3>Software Developer</h3>
+          <h4 class="timeline-org">ICCKH · Web, Mobile & Enterprise Solutions</h4>
+          <p>Developed cross-platform mobile apps in Flutter with offline/online SQLite sync, dynamic enterprise form engines, and high-throughput operational reporting dashboards.</p>
+          <div class="timeline-tags">
+            <span>Flutter</span>
+            <span>SQLite Offline Sync</span>
+            <span>ASP.NET MVC</span>
+            <span>RDLC & Crystal Reports</span>
+          </div>
+          <div class="timeline-metric">
+            <b>Key Milestone:</b> Shipped mobile field sales solution with automated background GPS geo-checkin across 14 districts.
+          </div>
+          <details class="timeline-deep-dive">
+            <summary>Inspect Enterprise Mobility & Reporting Stack ▾</summary>
+            <div class="dd-content">
+              <div class="dd-row"><b>Architecture:</b> Offline-First Flutter Client with SQLite background synchronization queue</div>
+              <div class="dd-row"><b>Geospatial:</b> Automated GPS check-in/out geo-fencing for sales reps across 14 districts</div>
+              <div class="dd-row"><b>Analytics:</b> Engineered 12 automated Crystal & RDLC financial sell-in/sell-out reports</div>
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="timeline-item active glow" data-year="2025 - Present">
+        <div class="timeline-dot-wrap">
+          <span class="timeline-dot active-dot">⚡</span>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-header">
+            <span class="timeline-period">2025 – Present</span>
+            <span class="timeline-badge live">Current Focus</span>
+          </div>
+          <h3>Developer, IT - Innovation Strategy</h3>
+          <h4 class="timeline-org">Chipmong · Innovation & Fintech</h4>
+          <p>Leading the architecture and implementation of national KHQR payment request pipelines, supermarket POS checkouts, real-time transaction verification, and enterprise digital solutions.</p>
+          <div class="timeline-tags">
+            <span>KHQR (EMVCo)</span>
+            <span>ASP.NET Core 8</span>
+            <span>Flutter & BLE</span>
+            <span>SQL Server 2022</span>
+          </div>
+          <div class="timeline-metric">
+            <b>Key Milestone:</b> Sub-20ms transaction verification pipeline with 100% automated daily ledger reconciliation.
+          </div>
+          <details class="timeline-deep-dive" open>
+            <summary>Inspect National Switch & Fintech Rails ▾</summary>
+            <div class="dd-content">
+              <div class="dd-row"><b>Architecture:</b> High-Throughput ASP.NET Core 8 Kestrel API Gateway with RS256 token validation</div>
+              <div class="dd-row"><b>Payment Switch:</b> EMVCo KHQR QR generator & NBC Bakong cryptographic HMAC-SHA256 webhook clearing</div>
+              <div class="dd-row"><b>Reconciliation:</b> Sub-20ms settlement pipeline with 100% automated daily SQL Server ledger balancing</div>
+            </div>
+          </details>
+        </div>
+      </article>
+    </div>
   </section>
 
   <section id="voices" class="wrap reveal" hidden>
@@ -649,6 +966,10 @@
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
     <span class="dock-label">CLI</span>
   </button>
+  <button type="button" class="dock-btn" onclick="if(window.ShortcutsEngine)window.ShortcutsEngine.toggle()" title="Keyboard Shortcuts (?)">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6" y2="8.01"/><line x1="10" y1="8" x2="10" y2="8.01"/><line x1="14" y1="8" x2="14" y2="8.01"/><line x1="18" y1="8" x2="18" y2="8.01"/><line x1="8" y1="12" x2="8" y2="12.01"/><line x1="12" y1="12" x2="12" y2="12.01"/><line x1="16" y1="12" x2="16" y2="12.01"/><line x1="7" y1="16" x2="17" y2="16"/></svg>
+    <span class="dock-label">Keys</span>
+  </button>
   <div class="dock-sep"></div>
   <button type="button" class="dock-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to Top">
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
@@ -674,5 +995,8 @@
 <script src="cli.js"></script>
 <script src="hotspots.js"></script>
 <script src="hud.js"></script>
+<script src="skills-radar.js"></script>
+<script src="confetti.js"></script>
+<script src="shortcuts.js"></script>
 </body>
 </html>

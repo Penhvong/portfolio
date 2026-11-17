@@ -13,6 +13,8 @@
     skills: 'Display categorized engineering capabilities & tech stack',
     projects: 'List featured production projects and architectural role',
     khqr: 'Generate simulated EMVCo-compliant KHQR payload with CRC16',
+    sql: 'Execute live SQL Server 2022 analytical window query',
+    radar: 'Display 6-axis engineering competency matrix',
     benchmark: 'Run high-throughput latency and memory allocation test',
     matrix: 'Toggle full-screen Cyberpunk Matrix digital rain animation',
     sound: 'Toggle audio synthesizer FX [sound on | sound off]',
@@ -79,7 +81,8 @@
           '  [C# / ASP.NET Core 8]  ██████████████████ 95%<br>' +
           '  [KHQR / Bakong / EMV]  ██████████████████ 94%<br>' +
           '  [Microsoft SQL Server] ████████████████   88%<br>' +
-          '  [SAP Business One DI]  ██████████████     82%<br><br>' +
+          '  [SQL Server & T-SQL]   ████████████████   88%<br>' +
+          '  [Enterprise ERP Bridge] ██████████████     82%<br><br>' +
           '<strong class="cli-green">MOBILE & FRONTEND:</strong><br>' +
           '  [Flutter / Dart BLoC]  █████████████████  92%<br>' +
           '  [SQLite Offline Sync]  ████████████████   88%<br>' +
@@ -96,7 +99,7 @@
           '2. <strong class="cli-hl">Field Sales Mobile Application</strong> (Flutter + SQLite)<br>' +
           '   Offline-first mobile client with geospatial GPS check-in/out and background sync.<br><br>' +
           '3. <strong class="cli-hl">Procurement & Order Management System</strong> (ASP.NET)<br>' +
-          '   Automated inter-departmental purchase requisitions and SAP B1 integration.<br><br>' +
+          '   Automated inter-departmental purchase requisitions and enterprise ERP integration.<br><br>' +
           '4. <strong class="cli-hl">SAMAKI Appointment Booking</strong> (Norton University)<br>' +
           '   Full-stack customer appointment scheduler and real-time staff dispatch platform.' +
           '</div>'
@@ -117,6 +120,40 @@
           'Country Code (58): KH<br>' +
           'CRC16-CCITT (63): 0x' + crc + ' <span class="cli-green">✔ VALIDATED</span><br>' +
           'Raw: 00020101021229320016chipmong.merchant53031165405' + amount + '5802KH6304' + crc +
+          '</div>'
+        );
+        break;
+
+      case 'sql':
+        appendOutput('<span class="cli-cyan">Executing T-SQL Window Query on SQL Server 2022...</span>');
+        setTimeout(function(){
+          appendOutput(
+            '<div class="cli-box">' +
+            '<span class="cli-green">✔ Query executed in 6.4ms (Logical Reads: 18)</span><br>' +
+            '-------------------------------------------------------<br>' +
+            '<strong class="cli-hl">TXN_ID        MERCHANT       AMOUNT    CUMULATIVE  STATUS</strong><br>' +
+            '-------------------------------------------------------<br>' +
+            'TXN-2026-9041 CM_RETAIL_01   $24.50    $1,842.10   SETTLED<br>' +
+            'TXN-2026-9042 CM_EXPRESS_04  $12.00    $1,854.10   SETTLED<br>' +
+            'TXN-2026-9043 CM_MALL_LANE2  $89.90    $1,944.00   SETTLED<br>' +
+            'TXN-2026-9044 CM_FOOD_HALL   $15.20    $1,959.20   SETTLED<br>' +
+            '-------------------------------------------------------<br>' +
+            'Optimizer: Cost-Based (v16.0) · Execution: Clustered Index Seek' +
+            '</div>'
+          );
+        }, 400);
+        break;
+
+      case 'radar':
+        appendOutput(
+          '<div class="cli-box">' +
+          '🕸️ <strong class="cli-hl">Architecture Competency Radar:</strong><br>' +
+          '  [FinTech & KHQR]       98% [Senior Mastery / NBC Switch]<br>' +
+          '  [ASP.NET Core & C#]    95% [High-Throughput 1.4ms Ingress]<br>' +
+          '  [SQL Server 2022]      94% [ACID Ledger & Window Queries]<br>' +
+          '  [Flutter & SQLite]     90% [Offline-First Store-and-Forward]<br>' +
+          '  [Enterprise Web]       92% [Glassmorphism & WebSocket Streams]<br>' +
+          '  [DevOps & Docker]      86% [Containerized Resilient Tooling]' +
           '</div>'
         );
         break;
@@ -164,8 +201,8 @@
       case 'contact':
         appendOutput(
           '<div class="cli-box">' +
-          '📧 <span class="cli-hl">Email:</span> <a href="mailto:chanpenhvong.yoeurng@gmail.com" class="cli-link">chanpenhvong.yoeurng@gmail.com</a><br>' +
-          '💬 <span class="cli-hl">Telegram:</span> <a href="https://t.me/chanpenhvong" target="_blank" class="cli-link">@chanpenhvong</a><br>' +
+          '📧 <span class="cli-hl">Email:</span> <a href="mailto:Penhvong46@gmail.com" class="cli-link">Penhvong46@gmail.com</a><br>' +
+          '💬 <span class="cli-hl">Telegram:</span> <a href="https://t.me/Chan_Penhvong" target="_blank" class="cli-link">@Chan_Penhvong</a><br>' +
           '💼 <span class="cli-hl">LinkedIn:</span> <a href="https://linkedin.com" target="_blank" class="cli-link">linkedin.com/in/chanpenhvong</a><br>' +
           '📍 <span class="cli-hl">Location:</span> Phnom Penh, Cambodia' +
           '</div>'

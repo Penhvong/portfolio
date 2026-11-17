@@ -54,4 +54,31 @@
       var s2=document.createElement('span');var dot=document.createElement('i');dot.style.background=l[1];s2.appendChild(dot);s2.appendChild(document.createTextNode(' '+l[0]));document.getElementById('dbLegend').appendChild(s2);});
   }
   sel.addEventListener('change',render);document.addEventListener('langchange',render);render();
+
+  var exportBtn = document.getElementById('dbExportBtn');
+  if(exportBtn){
+    exportBtn.addEventListener('click', function(){
+      if(window.playSfx) window.playSfx('success');
+      var lines = ['District,Category,Month,SellInUSD,SellOutUSD,SellThroughPct'];
+      var cat = sel.value === 'all' ? CATS : [sel.value];
+      cat.forEach(function(c){
+        DIST.forEach(function(d){
+          DATA[c][d].forEach(function(v, m){
+            var pct = Math.round((v.o / (v.i || 1)) * 100);
+            lines.push([d, c, MON[m], v.i, v.o, pct + '%'].join(','));
+          });
+        });
+      });
+      var blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'SellIn_SellOut_Report_' + (sel.value || 'all') + '.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      if(window.toast) window.toast('Sales dataset downloaded as CSV');
+    });
+  }
 })();

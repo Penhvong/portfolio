@@ -16,7 +16,38 @@
     if(!card)return;
     last=card;body.innerHTML='';
     var c=card.cloneNode(true);c.className='pm-card';c.removeAttribute('tabindex');c.removeAttribute('role');
+    
+    // Enrich with interactive architecture action bar
+    var pid=card.dataset.projectId;
+    var actionsRow=document.createElement('div');
+    actionsRow.className='pm-action-row';
+    
+    var labLink=document.createElement('a');
+    labLink.className='btn primary';
+    labLink.href='#workbench';
+    labLink.innerHTML='<span>Inspect Code in Lab ⚡</span>';
+    labLink.addEventListener('click',function(){
+      close();
+      var snipKey=pid==='khqr-payment-integration'?'khqr':(pid==='field-sales-mobile-app'?'flutter':'sql');
+      var tab=document.querySelector('.wb-tab[data-snip="'+snipKey+'"]');
+      if(tab)tab.click();
+    });
+    actionsRow.appendChild(labLink);
+
+    var flowLink=document.createElement('a');
+    flowLink.className='btn';
+    flowLink.href='#architecture';
+    flowLink.innerHTML='<span>View Process Flow 🚀</span>';
+    flowLink.addEventListener('click',function(){
+      close();
+      if(window.ProcessPipeline)window.ProcessPipeline.runSimulation();
+    });
+    actionsRow.appendChild(flowLink);
+
+    c.appendChild(actionsRow);
     body.appendChild(c);
+    
+    if(window.playSfx)window.playSfx('scan');
     status.textContent='';shareLabel.textContent=window.t?window.t('Copy project link'):'Copy project link';
     if(!fromLocation){
       returnHash=window.location.hash&&window.location.hash.indexOf('#project=')!==0?window.location.hash:'#projects';

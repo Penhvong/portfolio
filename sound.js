@@ -135,11 +135,26 @@
         osc.connect(g);g.connect(ac.destination);
         osc.start(t+dt);osc.stop(t+dt+0.11);
       });
+    },
+    print:function(){
+      var ac=getCtx();if(!ac||!enabled)return;
+      var t=ac.currentTime;
+      // Synthesize realistic thermal receipt printer motor & paper feed
+      for(var i=0;i<8;i++){
+        var osc=ac.createOscillator(),g=ac.createGain(),dt=i*0.045;
+        osc.type='sawtooth';
+        osc.frequency.setValueAtTime(220+Math.random()*80,t+dt);
+        g.gain.setValueAtTime(0.02,t+dt);
+        g.gain.exponentialRampToValueAtTime(0.0001,t+dt+0.035);
+        osc.connect(g);g.connect(ac.destination);
+        osc.start(t+dt);osc.stop(t+dt+0.04);
+      }
     }
   };
 
   window.playSfx=function(name){
     if(SFX[name])SFX[name]();
+    if(window.triggerAudioVisualizer)window.triggerAudioVisualizer(name);
   };
 
   function initUI(){
