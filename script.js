@@ -414,6 +414,35 @@
     window.replayCareerTour = runTour;
   }
 
+  // Floating Dock ScrollSpy: highlights current active section
+  (function(){
+    var dock = document.getElementById('floatingDock');
+    if(!dock) return;
+    var links = dock.querySelectorAll('a[href^="#"]');
+    if(!links.length) return;
+    var targets = [];
+    links.forEach(function(a){
+      var id = a.getAttribute('href').slice(1);
+      var el = document.getElementById(id);
+      if(el) targets.push({ id: id, el: el, a: a });
+    });
+
+    function updateDockActive(){
+      var scrollPos = window.scrollY + window.innerHeight * 0.35;
+      var cur = null;
+      for(var i = 0; i < targets.length; i++){
+        var top = targets[i].el.offsetTop;
+        if(scrollPos >= top){
+          cur = targets[i].a;
+        }
+      }
+      links.forEach(function(a){ a.classList.toggle('active', a === cur); });
+    }
+
+    window.addEventListener('scroll', updateDockActive, { passive: true });
+    updateDockActive();
+  })();
+
   if(document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', initJourneyTour);
   } else {

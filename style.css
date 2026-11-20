@@ -1139,6 +1139,7 @@ footer::before{width:180px;height:52px;opacity:.35}
 .floating-dock:hover{border-color:var(--primary);box-shadow:0 14px 44px -6px color-mix(in srgb,var(--primary) 30%,rgba(0,0,0,.8))}
 .dock-btn{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:30px;background:transparent;border:none;color:var(--muted);font-size:.8rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s ease}
 .dock-btn:hover{color:var(--ink);background:color-mix(in srgb,var(--primary) 15%,transparent)}
+.dock-btn.active{color:var(--primary);background:color-mix(in srgb,var(--primary) 22%,transparent);box-shadow:0 0 14px color-mix(in srgb,var(--primary) 35%,transparent)}
 .dock-btn svg{color:currentColor}
 .dock-label{font-size:.78rem}
 .dock-sep{width:1px;height:18px;background:color-mix(in srgb,var(--line) 80%,transparent);margin:0 2px}
@@ -2047,6 +2048,29 @@ h2::after, :root[data-festival] h2::after {
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+.pos-item-btn.pos-scanned {
+  transform: scale(0.96);
+  border-color: #00f5d4;
+  box-shadow: 0 0 16px rgba(0, 245, 212, 0.45);
+}
+.pos-item-btn.pos-scanned::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #ff0055;
+  box-shadow: 0 0 8px #ff0055, 0 0 14px #ff0055;
+  animation: posLaser 0.38s ease-in-out forwards;
+}
+@keyframes posLaser {
+  0% { top: 0%; opacity: 0.9; }
+  50% { top: 50%; opacity: 1; }
+  100% { top: 100%; opacity: 0; }
 }
 .pos-item-btn:hover {
   transform: translateY(-2px);
@@ -2268,6 +2292,64 @@ h2::after, :root[data-festival] h2::after {
   color: #94a3b8;
   font-family: var(--mono);
   z-index: 5;
+}
+/* Dynamic Island / Push Notification Pill in Simulated Phone */
+.phone-push-banner {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  right: 10px;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  border-radius: 16px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.25);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 30;
+  transform: translateY(-80px) scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+}
+.phone-push-banner.show {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+.push-icon {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+.push-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.25;
+}
+.push-info b {
+  font-size: 0.74rem;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.push-info small {
+  font-size: 0.66rem;
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.push-time {
+  font-size: 0.62rem;
+  font-family: var(--mono);
+  color: #64748b;
+  flex-shrink: 0;
 }
 .phone-telemetry {
   display: flex;

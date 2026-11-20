@@ -230,6 +230,8 @@
 
   document.querySelectorAll('.pos-item-btn').forEach(function(btn){
     btn.addEventListener('click', function(){
+      btn.classList.add('pos-scanned');
+      setTimeout(function(){ btn.classList.remove('pos-scanned'); }, 400);
       var name = btn.getAttribute('data-name');
       var price = parseFloat(btn.getAttribute('data-price'));
       currentCart.push({ name: name, price: price });

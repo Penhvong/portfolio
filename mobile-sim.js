@@ -76,7 +76,23 @@
       }
     }
 
-    function setOnlineState(online){
+    function showPushNotification(icon, title, body){
+      var banner = $('mPushBanner');
+      var bIcon = $('pushIcon');
+      var bTitle = $('pushTitle');
+      var bBody = $('pushBody');
+      if(!banner) return;
+      if(bIcon) bIcon.textContent = icon;
+      if(bTitle) bTitle.textContent = title;
+      if(bBody) bBody.textContent = body;
+      banner.classList.add('show');
+      clearTimeout(banner._timer);
+      banner._timer = setTimeout(function(){
+        banner.classList.remove('show');
+      }, 2600);
+    }
+
+    function setOnlineState(online, isManual){
       isOnline = online;
       if(netLabel) netLabel.textContent = isOnline ? 'ONLINE (4G)' : 'OFFLINE (Airplane)';
       if(netBadge){
@@ -86,6 +102,10 @@
       if(blocState){
         blocState.textContent = isOnline ? 'SyncState.online' : 'SyncState.offlineQueued';
         blocState.className = 'bloc-val ' + (isOnline ? 'green' : 'amber');
+      }
+
+      if(isManual){
+        showPushNotification(isOnline ? '📶' : '📵', isOnline ? '4G LTE Restored' : 'Airplane Mode (Offline)', isOnline ? 'Connected to ICCKH Cloud Gateway' : 'SQLite Store-and-Forward Active');
       }
 
       if(isOnline){
@@ -110,6 +130,7 @@
         updateQueueUI();
         isSyncing = false;
         logTerminal('✅ Pushed ' + count + ' visits to API Gateway. Local SQLite rows marked SYNCED.', 'success');
+        showPushNotification('⚡', 'Batch Sync Succeeded', count + ' offline visits synced to Cloud Gateway');
         if(window.playSfx) window.playSfx('success');
         if(window.fireConfetti && checkinBtn){
           var r = checkinBtn.getBoundingClientRect();
@@ -129,12 +150,14 @@
 
       if(isOnline){
         if(window.playSfx) window.playSfx('success');
+        showPushNotification('📍', store.name, 'GPS Verified · Synced via HTTPS (14ms)');
         logTerminal('📍 GPS Check-in [' + store.name + ']: Synced via HTTPS (14.2ms)', 'success');
         if(window.toast) window.toast('Checked in at ' + store.name);
       } else {
         if(window.playSfx) window.playSfx('laser');
         queue.push({ store: store.name, time: timeStr, lat: 11.5683, lon: 104.9182 });
         updateQueueUI();
+        showPushNotification('💾', 'Offline Queue (#' + queue.length + ')', store.name + ' queued in local SQLite');
         logTerminal('💾 OFFLINE: [' + store.name + '] committed to local SQLite queue table.', 'warn');
         if(window.toast) window.toast('Offline: Saved to local SQLite queue');
       }
@@ -152,7 +175,7 @@
     if(netToggle){
       netToggle.addEventListener('click', function(){
         if(window.playSfx) window.playSfx('switch');
-        setOnlineState(!isOnline);
+        setOnlineState(!isOnline, true);
       });
     }
 
