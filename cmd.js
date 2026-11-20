@@ -61,6 +61,32 @@
       {id:'confetti',cat:'Developer',icon:'🎉',title:'Celebrate with Confetti Burst',desc:'Fire colorful celebratory particle physics',run:function(){
         if(window.fireConfetti)window.fireConfetti();
       }},
+      {id:'viewCv',cat:'Resume',icon:'👁️',title:'View Curriculum Vitae (Interactive Modal)',desc:'Interactive preview with EN / KM / ZH tabs and print support',run:function(){
+        if(window.openCvModal)window.openCvModal();
+      }},
+      {id:'tour',cat:'Career',icon:'⚡',title:'Replay Career Journey Tour',desc:'Animated tour from Norton University (2020) to Chipmong (Present)',run:function(){
+        if(window.replayCareerTour)window.replayCareerTour();
+      }},
+      {id:'banks',cat:'FinTech',icon:'🏦',title:'Ping Cambodian Interbank Switch Rails',desc:'Simulate live pings to NBC Bakong, Chip Mong, ABA, and Wing',run:function(){
+        location.hash='#architecture';
+        if(window.ProcessPipeline)window.ProcessPipeline.renderNode('bakong');
+        if(window.pingInterbankRails)window.pingInterbankRails();
+      }},
+      {id:'ambient',cat:'Audio',icon:'🌌',title:'Toggle Cyberpunk Ambient Synth Pad',desc:'Relaxing procedural A minor 9 drone pad',run:function(){
+        if(window.toggleAmbientPad)window.toggleAmbientPad();
+      }},
+      {id:'radarSenior',cat:'Radar',icon:'🎯',title:'Radar Profile: Senior Full-Stack Lead',desc:'Balanced senior architecture across ASP.NET, SQL, and Flutter',run:function(){
+        location.hash='#skills';
+        if(window.setRadarProfile)window.setRadarProfile('senior');
+      }},
+      {id:'radarFintech',cat:'Radar',icon:'💳',title:'Radar Profile: FinTech & National Switch',desc:'Specialized in EMVCo KHQR, NBC Bakong, and ACID ledgers',run:function(){
+        location.hash='#skills';
+        if(window.setRadarProfile)window.setRadarProfile('fintech');
+      }},
+      {id:'radarMobile',cat:'Radar',icon:'📱',title:'Radar Profile: Enterprise Mobility & POS',desc:'Specialized in Flutter, offline SQLite sync, and BLE POS',run:function(){
+        location.hash='#skills';
+        if(window.setRadarProfile)window.setRadarProfile('mobile');
+      }},
       {id:'dashboard',cat:'Analytics',icon:'📊',title:'Open Sales Analytics Dashboard',desc:'Explore district sell-in and sell-out chart',run:function(){
         location.hash='#dashboard';
       }},

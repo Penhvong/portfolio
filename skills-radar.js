@@ -1,5 +1,5 @@
 // Interactive Architecture Competency Hexagon Radar
-// Visualizes the 6 pillars of Chanpenhvong's engineering expertise with SVG polygon math and animated callouts.
+// Visualizes the 6 pillars of Chanpenhvong's engineering expertise with SVG polygon math, animated callouts, and morphing profiles.
 (function(){
   var PILLARS = [
     {
@@ -88,11 +88,40 @@
     }
   ];
 
+  var PROFILES = {
+    senior: {
+      name: 'Senior Full-Stack Lead',
+      badge: 'Balanced Senior Architecture · 98% Peak',
+      ratings: [98, 95, 94, 90, 92, 86],
+      focus: 0,
+      desc: 'Balanced senior engineering profile spanning high-throughput ASP.NET Core microservices, EMVCo KHQR payment rails, SQL Server transactional tuning, and enterprise mobility.'
+    },
+    fintech: {
+      name: 'FinTech & National Switch Lead',
+      badge: 'FinTech Rails & National Switch · 100% Peak',
+      ratings: [100, 97, 96, 84, 88, 88],
+      focus: 0,
+      desc: 'Specialized FinTech architecture focusing on national payment switches, EMVCo TLV cryptographic validation, sub-20ms NBC Bakong clearing, and ACID ledger reconciliation.'
+    },
+    mobile: {
+      name: 'Enterprise Mobility & POS Lead',
+      badge: 'Offline-First Mobility & Field POS · 99% Peak',
+      ratings: [86, 90, 92, 99, 95, 88],
+      focus: 3,
+      desc: 'Specialized enterprise mobility engineering focusing on cross-platform Flutter, offline-first SQLite queues, geospatial GPS geo-fencing, and Bluetooth thermal POS integration.'
+    }
+  };
+
+  var activeProfileKey = 'senior';
+  var currentRatings = [98, 95, 94, 90, 92, 86];
+  var targetRatings = [98, 95, 94, 90, 92, 86];
+  var animFrameId = null;
+
   function init(){
     var svg = document.getElementById('skillsRadarSvg');
     if(!svg) return;
 
-    var cx = 230, cy = 190, maxR = 125;
+    var cx = 250, cy = 190, maxR = 115;
     var count = PILLARS.length;
     var angleStep = (Math.PI * 2) / count;
     var startAngle = -Math.PI / 2; // top vertex
@@ -138,8 +167,7 @@
     // 3. Draw filled competency data polygon
     var dataPts = [];
     for(var i = 0; i < count; i++){
-      var p = PILLARS[i];
-      var pt = getPoint(i, p.rating / 100);
+      var pt = getPoint(i, currentRatings[i] / 100);
       dataPts.push(pt.x.toFixed(1) + ',' + pt.y.toFixed(1));
     }
     var dataPoly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
@@ -168,7 +196,8 @@
       var metrics = document.getElementById('radarCardMetrics');
       var tags = document.getElementById('radarCardTags');
 
-      if(badge) badge.textContent = p.badge;
+      var currentRatingVal = Math.round(currentRatings[idx]);
+      if(badge) badge.textContent = p.name + ' · ' + currentRatingVal + '% Mastery';
       if(title) title.textContent = p.title;
       if(desc) desc.textContent = p.desc;
 
@@ -196,7 +225,7 @@
     for(var i = 0; i < count; i++){
       (function(idx){
         var p = PILLARS[idx];
-        var pt = getPoint(idx, p.rating / 100);
+        var pt = getPoint(idx, currentRatings[idx] / 100);
         var labelPt = getPoint(idx, 1.25);
 
         // Vertex circle
@@ -219,7 +248,7 @@
         text.setAttribute('fill', idx === 0 ? '#fff' : 'var(--muted)');
         text.setAttribute('font-weight', idx === 0 ? 'bold' : 'normal');
         text.style.cursor = 'pointer';
-        text.textContent = p.name + ' (' + p.rating + '%)';
+        text.textContent = p.name + ' (' + Math.round(currentRatings[idx]) + '%)';
 
         circle.addEventListener('mouseenter', function(){ selectPillar(idx); });
         circle.addEventListener('click', function(){ selectPillar(idx); });
@@ -232,6 +261,87 @@
         vertexElements.push({ circle: circle, label: text });
       })(i);
     }
+
+    // Smooth Polygon & Vertex Morphing Animation Engine
+    function morphToProfile(profileKey){
+      var prof = PROFILES[profileKey];
+      if(!prof) return;
+
+      activeProfileKey = profileKey;
+      targetRatings = prof.ratings.slice();
+
+      if(animFrameId) cancelAnimationFrame(animFrameId);
+
+      var startTime = performance.now();
+      var startRatings = currentRatings.slice();
+
+      function step(now){
+        var elapsed = (now - startTime) / 450; // 450ms spring transition
+        var t = Math.min(1, elapsed);
+        // Ease out back / cubic spring easing
+        var ease = 1 - Math.pow(1 - t, 3);
+
+        var pts = [];
+        var maxDiff = 0;
+
+        for(var i = 0; i < count; i++){
+          currentRatings[i] = startRatings[i] + (targetRatings[i] - startRatings[i]) * ease;
+          var pt = getPoint(i, currentRatings[i] / 100);
+          pts.push(pt.x.toFixed(1) + ',' + pt.y.toFixed(1));
+
+          // Update vertex circle position
+          if(vertexElements[i]){
+            vertexElements[i].circle.setAttribute('cx', pt.x.toFixed(1));
+            vertexElements[i].circle.setAttribute('cy', pt.y.toFixed(1));
+            vertexElements[i].label.textContent = PILLARS[i].name + ' (' + Math.round(currentRatings[i]) + '%)';
+          }
+
+          var diff = Math.abs(targetRatings[i] - currentRatings[i]);
+          if(diff > maxDiff) maxDiff = diff;
+        }
+
+        dataPoly.setAttribute('points', pts.join(' '));
+
+        if(t < 1 && maxDiff > 0.1){
+          animFrameId = requestAnimationFrame(step);
+        } else {
+          // Snap to exact target
+          currentRatings = targetRatings.slice();
+          var finalPts = [];
+          for(var j = 0; j < count; j++){
+            var fpt = getPoint(j, currentRatings[j] / 100);
+            finalPts.push(fpt.x.toFixed(1) + ',' + fpt.y.toFixed(1));
+            if(vertexElements[j]){
+              vertexElements[j].circle.setAttribute('cx', fpt.x.toFixed(1));
+              vertexElements[j].circle.setAttribute('cy', fpt.y.toFixed(1));
+              vertexElements[j].label.textContent = PILLARS[j].name + ' (' + targetRatings[j] + '%)';
+            }
+          }
+          dataPoly.setAttribute('points', finalPts.join(' '));
+          selectPillar(prof.focus);
+        }
+      }
+
+      animFrameId = requestAnimationFrame(step);
+    }
+
+    window.setRadarProfile = function(k){
+      document.querySelectorAll('.radar-profile-pill').forEach(function(btn){
+        btn.classList.toggle('active', btn.getAttribute('data-profile') === k);
+      });
+      morphToProfile(k);
+    };
+
+    // Wire profile toggle buttons
+    document.querySelectorAll('.radar-profile-pill').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var p = btn.getAttribute('data-profile');
+        if(p && p !== activeProfileKey){
+          if(window.playSfx) window.playSfx('switch');
+          window.setRadarProfile(p);
+        }
+      });
+    });
 
     // Toggle between Radar and Bars view
     var btnRadar = document.getElementById('btnSkillsRadar');

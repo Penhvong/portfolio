@@ -40,6 +40,10 @@
           '<div class="sc-row"><span>Toggle Dark / Light Theme</span><kbd>T</kbd></div>',
           '<div class="sc-row"><span>Simulate Process Pipeline</span><kbd>P</kbd></div>',
           '<div class="sc-row"><span>Execute SQL Server Query</span><kbd>Q</kbd></div>',
+          '<div class="sc-row"><span>View CV Modal</span><kbd>V</kbd></div>',
+          '<div class="sc-row"><span>Replay Career Tour</span><kbd>J</kbd></div>',
+          '<div class="sc-row"><span>Toggle Ambient Pad</span><kbd>A</kbd></div>',
+          '<div class="sc-row"><span>Ping Bank Switches</span><kbd>B</kbd></div>',
           '<div class="sc-row"><span>Keyboard Help</span><kbd>?</kbd></div>',
           '<div class="sc-row"><span>Close Active Modal</span><kbd>ESC</kbd></div>',
         '</div>',
@@ -112,6 +116,20 @@
             window.ProcessPipeline.executeSqlQuery();
           }
           break;
+        case 'v':
+          if(window.openCvModal) window.openCvModal();
+          break;
+        case 'j':
+          if(window.replayCareerTour) window.replayCareerTour();
+          break;
+        case 'a':
+          if(window.toggleAmbientPad) window.toggleAmbientPad();
+          break;
+        case 'b':
+          location.hash = '#architecture';
+          if(window.ProcessPipeline) window.ProcessPipeline.renderNode('bakong');
+          if(window.pingInterbankRails) window.pingInterbankRails();
+          break;
         case '1': location.hash = '#top'; break;
         case '2': location.hash = '#about'; break;
         case '3': location.hash = '#skills'; break;
@@ -127,6 +145,36 @@
   if(closeBtn) closeBtn.addEventListener('click', close);
   modal.addEventListener('click', function(e){
     if(e.target === modal) close();
+  });
+
+  // Konami Code Detector (↑ ↑ ↓ ↓ ← → ← → B A)
+  var konamiSeq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  var konamiIdx = 0;
+
+  window.activateOverdrive = function(){
+    if(window.playSfx) window.playSfx('overdrive');
+    document.body.classList.add('cyber-overdrive');
+    if(window.fireConfetti){
+      window.fireConfetti({ x: window.innerWidth * 0.25, y: window.innerHeight * 0.3 });
+      window.fireConfetti({ x: window.innerWidth * 0.75, y: window.innerHeight * 0.3 });
+    }
+    if(window.toast) window.toast('⚡ CYBER OVERDRIVE: Full Engine Throughput Unlocked (60fps)!');
+    setTimeout(function(){
+      document.body.classList.remove('cyber-overdrive');
+    }, 15000);
+  };
+
+  document.addEventListener('keydown', function(e){
+    var k = e.key;
+    if(k.toLowerCase() === konamiSeq[konamiIdx].toLowerCase()){
+      konamiIdx++;
+      if(konamiIdx === konamiSeq.length){
+        konamiIdx = 0;
+        window.activateOverdrive();
+      }
+    } else {
+      konamiIdx = 0;
+    }
   });
 
   window.ShortcutsEngine = {

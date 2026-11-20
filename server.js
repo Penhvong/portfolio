@@ -27,7 +27,7 @@ const authed=req=>{const s=sidOf(req),t=s&&sessions.get(s);if(t&&t>Date.now())re
 
 const PORT=+process.env.PORT||3000, HOST=process.env.HOST||'127.0.0.1';
 // Only these files are public (festival.js was missing here, so the festival menu never loaded locally)
-const PUBLIC=['index.html','style.css','script.js','i18n.js','cv.js','cv-en.pdf','cv-km.pdf','cv-zh.pdf','form.js','festival.js','calendar.js','projects.js','admin.html','admin.js','visit.js','qr.js','khqr-demo.js','dashboard.js','testimonials.js','sound.js','cmd.js','workbench.js','hotspots.js','hud.js','topology.js','cli.js','confetti.js','shortcuts.js','skills-radar.js','photo.jpg','hero-workspace.jpg','photo-work.jpg'];
+const PUBLIC=['index.html','style.css','script.js','i18n.js','cv.js','cv-en.pdf','cv-km.pdf','cv-zh.pdf','form.js','festival.js','calendar.js','projects.js','admin.html','admin.js','visit.js','qr.js','khqr-demo.js','dashboard.js','testimonials.js','sound.js','cmd.js','workbench.js','hotspots.js','hud.js','topology.js','cli.js','confetti.js','shortcuts.js','skills-radar.js','mobile-sim.js','switch-matrix.js','photo.jpg','hero-workspace.jpg','photo-work.jpg'];
 const FILES={'/':'index.html'};PUBLIC.forEach(f=>{FILES['/'+f]=f;});
 const TYPES={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.jpg':'image/jpeg','.pdf':'application/pdf','.png':'image/png','.svg':'image/svg+xml','.ico':'image/x-icon'};
 const hits=new Map(); // simple rate limit: 5 messages per 10 minutes per IP
@@ -85,7 +85,7 @@ http.createServer((req,res)=>{
   if(!file){res.writeHead(404);return res.end('Not found');}
   fs.readFile(path.join(__dirname,file),(err,data)=>{
     if(err){res.writeHead(404);return res.end('Not found');}
-    res.writeHead(200,{'Content-Type':TYPES[path.extname(file)]||'application/octet-stream','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin','X-Frame-Options':'DENY','Cache-Control':'no-cache'});
+    res.writeHead(200,{'Content-Type':TYPES[path.extname(file)]||'application/octet-stream','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin','X-Frame-Options':'SAMEORIGIN','Cache-Control':'no-cache'});
     res.end(isHead?null:data);
   });
 }).listen(PORT,HOST,()=>console.log('Site running at http://localhost:'+PORT));

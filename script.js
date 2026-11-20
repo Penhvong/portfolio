@@ -318,4 +318,105 @@
     }
     renderHalo();
   }
+
+  // Interactive Career Journey Replay Tour
+  function initJourneyTour(){
+    var btn = document.getElementById('btnJourneyTour');
+    var runner = document.getElementById('timelineRunner');
+    var items = document.querySelectorAll('#journey .timeline-item');
+    if(!btn || items.length < 3) return;
+
+    var isRunning = false;
+    var tourTimers = [];
+
+    function clearTour(){
+      tourTimers.forEach(function(t){ clearTimeout(t); });
+      tourTimers = [];
+      isRunning = false;
+      items.forEach(function(item){ item.classList.remove('tour-active'); });
+      if(runner) runner.style.display = 'none';
+      btn.innerHTML = '<span class="tour-icon">⚡</span> <span class="tour-text">Replay Career Tour ▶</span>';
+    }
+
+    function runTour(){
+      if(isRunning){
+        clearTour();
+        return;
+      }
+
+      isRunning = true;
+      btn.innerHTML = '<span class="tour-icon">⏹️</span> <span class="tour-text">Stop Tour</span>';
+      if(runner) runner.style.display = 'block';
+
+      // Scroll smoothly into view
+      var journeySec = document.getElementById('journey');
+      if(journeySec){
+        journeySec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      // Stage 1: Norton University (2020 - 2024)
+      items.forEach(function(item){ item.classList.remove('tour-active'); });
+      items[0].classList.add('tour-active');
+      var dd0 = items[0].querySelector('.timeline-deep-dive');
+      if(dd0) dd0.open = true;
+      if(runner) runner.style.top = '12%';
+      if(window.playSfx) window.playSfx('tick');
+
+      var toast = document.getElementById('toast');
+      if(toast){
+        toast.textContent = '[Stage 1/3] 🎓 2020–2024: Norton University · Software Engineering Bachelor';
+        toast.classList.add('show');
+      }
+
+      // Stage 2: ICCKH (2024 - 2025) at t = 2200ms
+      tourTimers.push(setTimeout(function(){
+        items.forEach(function(item){ item.classList.remove('tour-active'); });
+        items[1].classList.add('tour-active');
+        var dd1 = items[1].querySelector('.timeline-deep-dive');
+        if(dd1) dd1.open = true;
+        if(runner) runner.style.top = '50%';
+        if(window.playSfx) window.playSfx('switch');
+
+        if(toast){
+          toast.textContent = '[Stage 2/3] 🏢 2024–2025: ICCKH · Mobile & Enterprise Reporting Across 14 Districts';
+        }
+      }, 2200));
+
+      // Stage 3: Chipmong (2025 - Present) at t = 4400ms
+      tourTimers.push(setTimeout(function(){
+        items.forEach(function(item){ item.classList.remove('tour-active'); });
+        items[2].classList.add('tour-active');
+        var dd2 = items[2].querySelector('.timeline-deep-dive');
+        if(dd2) dd2.open = true;
+        if(runner) runner.style.top = '88%';
+        if(window.playSfx) window.playSfx('arpeggio');
+
+        // Confetti burst for milestone achievement
+        if(window.confetti){
+          window.confetti({ particleCount: 50, spread: 60, origin: { y: 0.65 } });
+        }
+
+        if(toast){
+          toast.textContent = '[Stage 3/3] ⚡ 2025–Present: Chipmong · Developer, IT - Innovation Strategy';
+        }
+      }, 4400));
+
+      // Tour completed at t = 7000ms
+      tourTimers.push(setTimeout(function(){
+        isRunning = false;
+        btn.innerHTML = '<span class="tour-icon">↺</span> <span class="tour-text">Replay Career Tour</span>';
+        if(runner) runner.style.display = 'none';
+        if(toast) toast.classList.remove('show');
+      }, 7000));
+    }
+
+    btn.addEventListener('click', runTour);
+    window.replayCareerTour = runTour;
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initJourneyTour);
+  } else {
+    initJourneyTour();
+  }
 })();

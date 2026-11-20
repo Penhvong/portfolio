@@ -149,8 +149,138 @@
         osc.connect(g);g.connect(ac.destination);
         osc.start(t+dt);osc.stop(t+dt+0.04);
       }
+    },
+    arpeggio:function(){
+      var ac=getCtx();if(!ac||!enabled)return;
+      var t=ac.currentTime;
+      var notes=[261.63, 329.63, 392.00, 493.88, 523.25, 659.25, 783.99, 987.77];
+      notes.forEach(function(freq,i){
+        var osc=ac.createOscillator(),g=ac.createGain(),dt=i*0.055;
+        osc.type='triangle';
+        osc.frequency.setValueAtTime(freq,t+dt);
+        g.gain.setValueAtTime(0.04,t+dt);
+        g.gain.exponentialRampToValueAtTime(0.0001,t+dt+0.12);
+        osc.connect(g);g.connect(ac.destination);
+        osc.start(t+dt);osc.stop(t+dt+0.13);
+      });
+    },
+    overdrive:function(){
+      var ac=getCtx();if(!ac||!enabled)return;
+      var t=ac.currentTime;
+      var osc=ac.createOscillator(),g=ac.createGain();
+      osc.type='sawtooth';
+      osc.frequency.setValueAtTime(120,t);
+      osc.frequency.exponentialRampToValueAtTime(1400,t+0.6);
+      g.gain.setValueAtTime(0.08,t);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+0.65);
+      osc.connect(g);g.connect(ac.destination);
+      osc.start(t);osc.stop(t+0.7);
+
+      setTimeout(function(){
+        var ac2=getCtx();if(!ac2||!enabled)return;
+        var t2=ac2.currentTime;
+        [523.25,659.25,783.99,1046.50,1318.51].forEach(function(f,i){
+          var osc2=ac2.createOscillator(),g2=ac2.createGain();
+          osc2.type='sine';
+          osc2.frequency.setValueAtTime(f,t2+i*0.04);
+          g2.gain.setValueAtTime(0.05,t2+i*0.04);
+          g2.gain.exponentialRampToValueAtTime(0.0001,t2+i*0.04+0.35);
+          osc2.connect(g2);g2.connect(ac2.destination);
+          osc2.start(t2+i*0.04);osc2.stop(t2+i*0.04+0.36);
+        });
+      },350);
     }
   };
+
+  // Procedural Cyberpunk Lo-Fi Ambient Synth Pad (A Minor 9: 55Hz, 110Hz, 130.8Hz, 164.8Hz, 246.9Hz)
+  var ambientGain = null;
+  var ambientOscs = [];
+  var isAmbientPlaying = false;
+
+  function updateAmbientUI(active){
+    var meter = document.getElementById('hudAudioMeter');
+    if(meter) meter.classList.toggle('ambient-active', active);
+    var toast = document.getElementById('toast');
+    if(toast){
+      toast.textContent = active ? (window.t ? window.t('Cyber Ambient Pad: ON 🌌') : 'Cyber Ambient Pad: ON 🌌') : (window.t ? window.t('Cyber Ambient Pad: OFF') : 'Cyber Ambient Pad: OFF');
+      toast.classList.add('show');
+      setTimeout(function(){ toast.classList.remove('show'); }, 1800);
+    }
+  }
+
+  function startAmbientPad(){
+    var ac = getCtx();
+    if(!ac || isAmbientPlaying) return;
+
+    ambientGain = ac.createGain();
+    ambientGain.gain.setValueAtTime(0.0001, ac.currentTime);
+    ambientGain.gain.exponentialRampToValueAtTime(0.038, ac.currentTime + 1.2);
+
+    // Warm Low-Pass Filter
+    var filter = ac.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(360, ac.currentTime);
+
+    // Filter breathing LFO
+    var lfo = ac.createOscillator();
+    var lfoGain = ac.createGain();
+    lfo.type = 'sine';
+    lfo.frequency.setValueAtTime(0.09, ac.currentTime);
+    lfoGain.gain.setValueAtTime(110, ac.currentTime);
+    lfo.connect(filter.frequency);
+    lfo.start();
+    ambientOscs.push(lfo);
+
+    filter.connect(ambientGain);
+    ambientGain.connect(ac.destination);
+
+    // Polyphonic Warm Blade-Runner Chord (Am9)
+    var freqs = [55.00, 110.00, 130.81, 164.81, 246.94];
+    freqs.forEach(function(f, i){
+      var osc = ac.createOscillator();
+      var g = ac.createGain();
+      osc.type = i === 0 ? 'sine' : (i % 2 === 0 ? 'triangle' : 'sine');
+      var detune = (i - 2) * 5;
+      osc.frequency.setValueAtTime(f, ac.currentTime);
+      osc.detune.setValueAtTime(detune, ac.currentTime);
+      g.gain.setValueAtTime(0.18, ac.currentTime);
+      osc.connect(g);
+      g.connect(filter);
+      osc.start();
+      ambientOscs.push(osc);
+    });
+
+    isAmbientPlaying = true;
+    updateAmbientUI(true);
+  }
+
+  function stopAmbientPad(){
+    var ac = getCtx();
+    if(!ac || !isAmbientPlaying) return;
+    if(ambientGain){
+      ambientGain.gain.setValueAtTime(ambientGain.gain.value, ac.currentTime);
+      ambientGain.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.8);
+      setTimeout(function(){
+        ambientOscs.forEach(function(o){ try{ o.stop(); o.disconnect(); }catch(e){} });
+        ambientOscs = [];
+        if(ambientGain){ try{ ambientGain.disconnect(); }catch(e){} ambientGain = null; }
+      }, 850);
+    }
+    isAmbientPlaying = false;
+    updateAmbientUI(false);
+  }
+
+  function toggleAmbientPad(){
+    if(isAmbientPlaying){
+      stopAmbientPad();
+    } else {
+      startAmbientPad();
+    }
+    return isAmbientPlaying;
+  }
+
+  window.toggleAmbientPad = toggleAmbientPad;
+  window.isAmbientPlaying = function(){ return isAmbientPlaying; };
 
   window.playSfx=function(name){
     if(SFX[name])SFX[name]();

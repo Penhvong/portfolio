@@ -7,10 +7,12 @@
   var amt=$('qrAmt'),cur=$('qrCur'),out=$('qrOut'),cv=$('qrCanvas'),msg=$('qrMsg'),tim=$('qrTimer'),
       pay=$('qrPay'),neu=$('qrNew'),data=$('qrData'),err=$('qrErr'),
       tagList=$('emvTagList'),emvDetails=$('emvDecoderDetails'),
+      posClearBtn=$('posClearCart'),receiptItemsEl=$('receiptItems'),
       receiptWrap=$('posReceiptWrap'),rUsd=$('rTotalUsd'),rKhr=$('rTotalKhr'),
       rRef=$('rTxnRef'),rPrice=$('rItemPrice'),rCopy=$('rCopyBtn'),rPrint=$('rPrintBtn');
   var T=function(s){return window.t?window.t(s):s;};
   var TTL=180, state='idle', left=0, timer=null, shown='', tx='', curAmount=1, curCurrency='USD';
+  var currentCart = [];
 
   var EMV_NAMES = {
     '00': 'Payload Format Indicator (01 = EMVCo Standard)',
@@ -117,6 +119,24 @@
         if(rKhr)rKhr.textContent=khrStr;
         if(rPrice)rPrice.textContent=shown;
         if(rRef)rRef.textContent=tx;
+        if(receiptItemsEl){
+          if(currentCart.length > 0){
+            var itemCounts = {};
+            currentCart.forEach(function(it){
+              if(!itemCounts[it.name]) itemCounts[it.name] = { count: 0, price: it.price };
+              itemCounts[it.name].count++;
+            });
+            var itemsHtml = '';
+            Object.keys(itemCounts).forEach(function(k){
+              var obj = itemCounts[k];
+              var lineTot = (obj.count * obj.price).toFixed(2);
+              itemsHtml += '<div class="r-item"><span>' + obj.count + 'x ' + k + '</span><span>$' + lineTot + '</span></div>';
+            });
+            receiptItemsEl.innerHTML = itemsHtml;
+          } else {
+            receiptItemsEl.innerHTML = '<div class="r-item"><span>1x Supermarket Basket Checkout</span><span>' + shown + '</span></div>';
+          }
+        }
         receiptWrap.hidden=false;
       }
     }
@@ -161,21 +181,35 @@
 
   if(rCopy){
     rCopy.addEventListener('click',function(){
-      var text=[
+      var receiptLines = [
         '================================',
         '       CHIPMONG RETAIL          ',
         '   Phnom Penh Supermarket Node  ',
         '================================',
-        'Lane #04 · Cashier #2914',
-        '1x Supermarket Basket  '+shown,
-        '--------------------------------',
-        'Total: '+shown,
-        'Payment: NBC Bakong KHQR (18ms)',
-        'Ref: '+tx,
-        'Ledger: SQL Server 2022 SETTLED',
-        '================================',
-        'Thank you for shopping with us!'
-      ].join('\n');
+        'Lane #04 · Cashier #2914'
+      ];
+      if(currentCart.length > 0){
+        var counts = {};
+        currentCart.forEach(function(it){
+          if(!counts[it.name]) counts[it.name] = { count: 0, price: it.price };
+          counts[it.name].count++;
+        });
+        Object.keys(counts).forEach(function(k){
+          var obj = counts[k];
+          receiptLines.push(obj.count + 'x ' + k + '  $' + (obj.count * obj.price).toFixed(2));
+        });
+      } else {
+        receiptLines.push('1x Supermarket Basket  ' + shown);
+      }
+      receiptLines.push('--------------------------------');
+      receiptLines.push('Total: ' + shown);
+      receiptLines.push('Payment: NBC Bakong KHQR (18ms)');
+      receiptLines.push('Ref: ' + tx);
+      receiptLines.push('Ledger: SQL Server 2022 SETTLED');
+      receiptLines.push('================================');
+      receiptLines.push('Thank you for shopping with us!');
+
+      var text = receiptLines.join('\n');
       if(navigator.clipboard && navigator.clipboard.writeText){
         navigator.clipboard.writeText(text).then(function(){
           if(window.toast) window.toast('Receipt copied to clipboard');
@@ -187,6 +221,37 @@
   if(rPrint){
     rPrint.addEventListener('click',function(){
       window.print();
+    });
+  }
+
+  function updateCartUI(){
+    if(posClearBtn) posClearBtn.hidden = currentCart.length === 0;
+  }
+
+  document.querySelectorAll('.pos-item-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var name = btn.getAttribute('data-name');
+      var price = parseFloat(btn.getAttribute('data-price'));
+      currentCart.push({ name: name, price: price });
+      updateCartUI();
+      var sum = currentCart.reduce(function(a, b){ return a + b.price; }, 0);
+      if(cur) cur.value = 'USD';
+      if(amt) amt.value = sum.toFixed(2);
+      if(window.playSfx) window.playSfx('laser');
+      if(window.toast) window.toast('Scanned ' + name + ' ($' + price.toFixed(2) + ')');
+      start();
+    });
+  });
+
+  if(posClearBtn){
+    posClearBtn.addEventListener('click', function(){
+      currentCart = [];
+      updateCartUI();
+      if(cur) cur.value = 'USD';
+      if(amt) amt.value = '1.00';
+      if(window.playSfx) window.playSfx('switch');
+      if(window.toast) window.toast('Cart reset');
+      start();
     });
   }
 

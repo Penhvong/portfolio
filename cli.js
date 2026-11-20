@@ -15,8 +15,14 @@
     khqr: 'Generate simulated EMVCo-compliant KHQR payload with CRC16',
     sql: 'Execute live SQL Server 2022 analytical window query',
     radar: 'Display 6-axis engineering competency matrix',
+    synth: 'Play algorithmic synthesizer audio [synth arp | synth chime | synth laser | synth print]',
+    pad: 'Toggle procedural lo-fi cyberpunk ambient synth pad',
+    cv: 'Open in-page interactive Curriculum Vitae viewer (EN / KM / ZH)',
+    tour: 'Launch interactive Career Journey Replay Tour',
+    switch: 'Ping Cambodian National Banking Rails (NBC Bakong, Chip Mong, ABA, Wing)',
     benchmark: 'Run high-throughput latency and memory allocation test',
     matrix: 'Toggle full-screen Cyberpunk Matrix digital rain animation',
+    overdrive: 'Unlock 60fps Cyber Overdrive power surge easter egg',
     sound: 'Toggle audio synthesizer FX [sound on | sound off]',
     theme: 'Change UI appearance [theme dark | theme light | theme fest]',
     contact: 'Display direct communication channels (Telegram, Email, etc.)',
@@ -158,6 +164,25 @@
         );
         break;
 
+      case 'synth':
+        var tune = (parts[1] || 'arp').toLowerCase();
+        if(tune === 'arp' || tune === 'arpeggio'){
+          if(window.playSfx) window.playSfx('arpeggio');
+          appendOutput('<span class="cli-green">🎵 Playing synthesized 8-note cyber arpeggio (Web Audio API)...</span>');
+        } else if(tune === 'chime' || tune === 'success'){
+          if(window.playSfx) window.playSfx('success');
+          appendOutput('<span class="cli-green">🎵 Playing Bakong instant settlement chime...</span>');
+        } else if(tune === 'laser' || tune === 'scan'){
+          if(window.playSfx) window.playSfx('laser');
+          appendOutput('<span class="cli-green">🎵 Playing retail barcode laser scanner chirp...</span>');
+        } else if(tune === 'print'){
+          if(window.playSfx) window.playSfx('print');
+          appendOutput('<span class="cli-green">🎵 Playing thermal ESC/POS motor stepper pulses...</span>');
+        } else {
+          appendOutput('<span class="cli-sub">Available synth patterns: "synth arp", "synth chime", "synth laser", "synth print"</span>');
+        }
+        break;
+
       case 'benchmark':
         appendOutput('<span class="cli-cyan">Starting system performance benchmark...</span>');
         setTimeout(function(){
@@ -176,6 +201,11 @@
 
       case 'matrix':
         toggleMatrix();
+        break;
+
+      case 'overdrive':
+        if(window.activateOverdrive) window.activateOverdrive();
+        appendOutput('<span class="cli-green">⚡ CYBER OVERDRIVE ACTIVATED: Full engine throughput unlocked!</span>');
         break;
 
       case 'sound':
@@ -207,6 +237,39 @@
           '📍 <span class="cli-hl">Location:</span> Phnom Penh, Cambodia' +
           '</div>'
         );
+        break;
+
+      case 'cv':
+        if(window.openCvModal){
+          window.openCvModal();
+          appendOutput('<span class="cli-green">Opening Curriculum Vitae modal viewer...</span>');
+        } else {
+          location.href = 'cv-en.pdf';
+        }
+        break;
+
+      case 'tour':
+        if(window.replayCareerTour){
+          window.replayCareerTour();
+          appendOutput('<span class="cli-green">Launching Career Journey Replay Tour across 2020-Present...</span>');
+        }
+        break;
+
+      case 'pad':
+        if(window.toggleAmbientPad){
+          var isPadPlaying = window.toggleAmbientPad();
+          appendOutput('<span class="cli-cyan">Lo-Fi Cyberpunk Ambient Synth Pad: ' + (isPadPlaying ? 'ACTIVE 🌌 (A minor 9 drone)' : 'STOPPED') + '</span>');
+        }
+        break;
+
+      case 'switch':
+      case 'banks':
+        if(window.pingInterbankRails){
+          location.hash = '#architecture';
+          if(window.ProcessPipeline) window.ProcessPipeline.renderNode('bakong');
+          window.pingInterbankRails();
+          appendOutput('<span class="cli-green">Pinging Cambodian Interbank Switch Rails (NBC Bakong, Chip Mong, ABA, Canadia, Wing)...</span>');
+        }
         break;
 
       case 'neofetch':

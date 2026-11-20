@@ -279,9 +279,15 @@
 
     <!-- Interactive Architecture Competency Hexagon Radar -->
     <div class="skills-radar-wrap glow border-beam" id="skillsRadarWrap">
+      <div class="radar-profiles-bar" role="group" aria-label="Architecture Specialization Profiles">
+        <span class="radar-profiles-label">Engineering Focus Profile:</span>
+        <button type="button" class="radar-profile-pill active" data-profile="senior">🎯 Senior Full-Stack Lead</button>
+        <button type="button" class="radar-profile-pill" data-profile="fintech">💳 FinTech & National Switch</button>
+        <button type="button" class="radar-profile-pill" data-profile="mobile">📱 Enterprise Mobility & POS</button>
+      </div>
       <div class="radar-layout">
         <div class="radar-svg-col">
-          <svg id="skillsRadarSvg" viewBox="0 0 460 380" class="radar-svg" role="img" aria-label="Architecture Competency Radar Chart">
+          <svg id="skillsRadarSvg" viewBox="0 0 500 380" class="radar-svg" role="img" aria-label="Architecture Competency Radar Chart">
             <defs>
               <linearGradient id="radarMeshGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#00f5d4" stop-opacity="0.4"/>
@@ -550,11 +556,182 @@
               <div class="sql-view-tabs" role="tablist">
                 <button type="button" class="sql-tab-btn active" id="sqlTabGridBtn" data-sql-tab="grid">📊 Tabular Grid</button>
                 <button type="button" class="sql-tab-btn" id="sqlTabPlanBtn" data-sql-tab="plan">⚡ Execution Plan Tree</button>
+                <button type="button" class="sql-tab-btn" id="sqlTabGaugeBtn" data-sql-tab="gauge">📈 Concurrency & Latency</button>
                 <button type="button" class="btn-ghost-icon" id="sqlGridExportBtn" title="Copy results as JSON">📋 Copy JSON</button>
               </div>
             </div>
             <div class="sql-table-responsive" id="sqlTableContainer"></div>
             <div class="sql-plan-tree-wrap" id="sqlPlanTreeWrap" style="display:none"></div>
+            
+            <!-- Interactive SQL Server 2022 Concurrency Stress Simulator -->
+            <div class="sql-gauge-wrap" id="sqlGaugeWrap" style="display:none">
+              <div class="sql-gauges-grid">
+                <div class="gauge-card">
+                  <div class="gauge-head">
+                    <span>⚡ Execution Latency</span>
+                    <b class="gauge-val" id="gaugeLatencyVal">8.2ms</b>
+                  </div>
+                  <div class="gauge-track"><div class="gauge-fill" id="gaugeLatencyFill" style="width: 14%;"></div></div>
+                  <small class="gauge-sub">Baseline: &lt; 14ms (Sub-millisecond T-SQL)</small>
+                </div>
+                <div class="gauge-card">
+                  <div class="gauge-head">
+                    <span>📦 Buffer Pool Cache Hit</span>
+                    <b class="gauge-val" style="color:#10b981">99.8%</b>
+                  </div>
+                  <div class="gauge-track"><div class="gauge-fill green" style="width: 99.8%;"></div></div>
+                  <small class="gauge-sub">In-Memory Page Reads (Zero Disk I/O)</small>
+                </div>
+                <div class="gauge-card">
+                  <div class="gauge-head">
+                    <span>🔒 Deadlock / Lock Ratio</span>
+                    <b class="gauge-val" style="color:#10b981">0.00%</b>
+                  </div>
+                  <div class="gauge-track"><div class="gauge-fill green" style="width: 0%;"></div></div>
+                  <small class="gauge-sub">RCSI + NOLOCK Clustered Index Seeks</small>
+                </div>
+              </div>
+
+              <div class="concurrency-sim-box">
+                <div class="sim-box-head">
+                  <div class="sim-title">
+                    <span>🏎️ Real-Time Concurrency Stress Test</span>
+                    <small>Simulates simultaneous active POS terminals querying the ledger</small>
+                  </div>
+                  <div class="sim-stat">
+                    <span>Active POS Terminals:</span>
+                    <b id="concurrencyVal">1,200</b>
+                  </div>
+                </div>
+                <input type="range" id="concurrencyRange" min="100" max="5000" step="100" value="1200" class="sim-slider" aria-label="Simulate concurrent POS load">
+                <div class="sim-bench-metrics">
+                  <div class="bench-col">
+                    <span>Throughput:</span>
+                    <b id="benchTps">4,800 req/sec</b>
+                  </div>
+                  <div class="bench-col">
+                    <span>P99 Latency:</span>
+                    <b id="benchP99">11.4ms</b>
+                  </div>
+                  <div class="bench-col">
+                    <span>CPU Core Usage:</span>
+                    <b id="benchCpu">18.4%</b>
+                  </div>
+                  <div class="bench-col">
+                    <span>Reconciliation:</span>
+                    <b style="color:#10b981">100% ACID</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cambodian National Banking Switch Matrix (Bakong Interbank Clearing Rails) -->
+          <div class="pipe-bakong-matrix" id="pipeBakongMatrix" style="display:none">
+            <div class="bakong-matrix-head">
+              <div class="bm-head-left">
+                <span class="bm-badge">National Backbone Switch</span>
+                <h4>National Bank of Cambodia (NBC) Bakong Clearing Rails</h4>
+                <p class="bm-sub">Real-time interbank settlement connecting Chipmong Bank, ABA, Canadia, and Wing via EMVCo KHQR & HMAC-SHA256.</p>
+              </div>
+              <div class="bm-head-right">
+                <button type="button" class="btn primary btn-small" id="btnPingBanks">
+                  <span class="bm-ping-icon">⚡</span>
+                  <span>Ping Interbank Rails ▶</span>
+                </button>
+              </div>
+            </div>
+            
+            <div class="bakong-nodes-grid" id="bakongNodesGrid">
+              <div class="b-node-card glow" data-bank="nbc">
+                <div class="b-node-top">
+                  <span class="b-node-icon">🏦</span>
+                  <div class="b-node-title">
+                    <b>NBC Bakong Central Switch</b>
+                    <small>bakong.nbc.org.kh:443</small>
+                  </div>
+                  <span class="b-node-status live"><i class="status-dot"></i> Central</span>
+                </div>
+                <div class="b-node-stats">
+                  <div class="b-stat"><span class="b-lbl">Latency</span><b class="b-val bank-lat" id="lat-nbc">11.8ms</b></div>
+                  <div class="b-stat"><span class="b-lbl">Cipher</span><b class="b-val">TLS 1.3 / SHA-256</b></div>
+                  <div class="b-stat"><span class="b-lbl">Protocol</span><b class="b-val">EMVCo KHQR</b></div>
+                </div>
+              </div>
+
+              <div class="b-node-card glow highlighted" data-bank="chipmong">
+                <div class="b-node-top">
+                  <span class="b-node-icon">🏢</span>
+                  <div class="b-node-title">
+                    <b>Chip Mong Commercial Bank</b>
+                    <small>core.chipmongbank.com:8443</small>
+                  </div>
+                  <span class="b-node-status live"><i class="status-dot"></i> Intranet</span>
+                </div>
+                <div class="b-node-stats">
+                  <div class="b-stat"><span class="b-lbl">Latency</span><b class="b-val bank-lat" id="lat-chipmong">4.2ms</b></div>
+                  <div class="b-stat"><span class="b-lbl">Cipher</span><b class="b-val">mTLS Dedicated Fiber</b></div>
+                  <div class="b-stat"><span class="b-lbl">Role</span><b class="b-val">Corporate Acquirer</b></div>
+                </div>
+              </div>
+
+              <div class="b-node-card glow" data-bank="aba">
+                <div class="b-node-top">
+                  <span class="b-node-icon">🏛️</span>
+                  <div class="b-node-title">
+                    <b>ABA Bank Clearing Switch</b>
+                    <small>api.ababank.com:443</small>
+                  </div>
+                  <span class="b-node-status live"><i class="status-dot"></i> Member</span>
+                </div>
+                <div class="b-node-stats">
+                  <div class="b-stat"><span class="b-lbl">Latency</span><b class="b-val bank-lat" id="lat-aba">14.5ms</b></div>
+                  <div class="b-stat"><span class="b-lbl">Cipher</span><b class="b-val">HMAC-SHA256</b></div>
+                  <div class="b-stat"><span class="b-lbl">Clearing</span><b class="b-val">Direct Retail Rail</b></div>
+                </div>
+              </div>
+
+              <div class="b-node-card glow" data-bank="canadia">
+                <div class="b-node-top">
+                  <span class="b-node-icon">🏦</span>
+                  <div class="b-node-title">
+                    <b>Canadia Bank Switch</b>
+                    <small>switch.canadiabank.com.kh:443</small>
+                  </div>
+                  <span class="b-node-status live"><i class="status-dot"></i> Member</span>
+                </div>
+                <div class="b-node-stats">
+                  <div class="b-stat"><span class="b-lbl">Latency</span><b class="b-val bank-lat" id="lat-canadia">16.2ms</b></div>
+                  <div class="b-stat"><span class="b-lbl">Cipher</span><b class="b-val">ISO-8583 / KHQR</b></div>
+                  <div class="b-stat"><span class="b-lbl">Clearing</span><b class="b-val">Interbank Node</b></div>
+                </div>
+              </div>
+
+              <div class="b-node-card glow" data-bank="wing">
+                <div class="b-node-top">
+                  <span class="b-node-icon">📱</span>
+                  <div class="b-node-title">
+                    <b>Wing Bank Mobile Switch</b>
+                    <small>gateway.wingmoney.com:443</small>
+                  </div>
+                  <span class="b-node-status live"><i class="status-dot"></i> Member</span>
+                </div>
+                <div class="b-node-stats">
+                  <div class="b-stat"><span class="b-lbl">Latency</span><b class="b-val bank-lat" id="lat-wing">13.7ms</b></div>
+                  <div class="b-stat"><span class="b-lbl">Cipher</span><b class="b-val">Webhook Push</b></div>
+                  <div class="b-stat"><span class="b-lbl">Clearing</span><b class="b-val">Agent Mobile Rail</b></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Real-time EMVCo KHQR Cryptographic Audit Stream -->
+            <div class="bm-audit-box">
+              <div class="bm-audit-head">
+                <span>🔐 Cryptographic Handshake & Validation Trace</span>
+                <span class="bm-audit-algo">Algorithm: CRC16-CCITT (0x1021) · HMAC-SHA256</span>
+              </div>
+              <pre class="bm-audit-trace" id="bmAuditTrace"><code>[00:00:00.000] Standby. Click "Ping Interbank Rails ▶" to simulate concurrent TLS 1.3 cryptographic handshakes across NBC Bakong member switches.</code></pre>
+            </div>
           </div>
         </div>
       </div>
@@ -617,9 +794,13 @@
         <div class="tech"><i>ASP.NET MVC</i><i>Razor</i><i>JavaScript</i></div>
       </article>
       <article class="card glow" data-project-id="field-sales-mobile-app" data-cat="mobile">
-        <span class="tag">ICCKH</span><h3>Field Sales Mobile App</h3>
+        <div class="card-header-row">
+          <span class="tag">ICCKH</span>
+          <a href="#mobileDemo" class="card-demo-link" onclick="event.stopPropagation();">📱 Try Mobile App Demo ↓</a>
+        </div>
+        <h3>Field Sales Mobile App</h3>
         <p>Flutter app with GPS check-in and check-out, visit flow, and maps.</p>
-        <div class="tech"><i>Flutter</i><i>GPS</i><i>Maps</i></div>
+        <div class="tech"><i>Flutter</i><i>SQLite Sync</i><i>GPS Geofence</i></div>
       </article>
       <article class="card glow" data-project-id="visit-tracking-map-report" data-cat="reports">
         <span class="tag">ICCKH</span><h3>Visit Tracking Map Report</h3>
@@ -638,6 +819,98 @@
       </article>
     </div>
     <p class="more"><a href="https://github.com/Chanpenhvong" target="_blank" rel="noopener">See more on GitHub</a></p>
+  </section>
+
+  <!-- Interactive Flutter Field Sales Mobile App Simulator -->
+  <section id="mobileDemo" class="wrap reveal">
+    <div class="section-head">
+      <span class="section-tag">Cross-Platform Mobility Simulator</span>
+      <h2>Flutter Field Sales Simulator</h2>
+      <p class="demo-intro">Experience offline-first mobile architecture. Toggle airplane mode, log GPS sales visits, and watch SQLite queue background sync.</p>
+    </div>
+    <div class="mobile-sim-container glow" id="mobileAppSim">
+      <div class="phone-frame">
+        <div class="phone-notch" aria-hidden="true"></div>
+        <div class="phone-status-bar">
+          <span class="phone-time">9:41</span>
+          <div class="phone-telemetry">
+            <span class="m-net-pill online" id="mNetBadge">● 4G LTE</span>
+            <span class="phone-battery">98% 🔋</span>
+          </div>
+        </div>
+        <div class="phone-app-header">
+          <div class="phone-title-block">
+            <b>ICCKH Field Mobility</b>
+            <small>Phnom Penh Sales Route #03</small>
+          </div>
+          <button type="button" class="btn-net-toggle" id="mNetToggle" title="Toggle Network Connectivity">
+            <span class="toggle-icon">📡</span>
+            <span id="mNetLabel">ONLINE (4G)</span>
+          </button>
+        </div>
+
+        <div class="phone-body">
+          <div class="phone-route-card">
+            <div class="route-stat-row">
+              <span>📍 GPS Geofence: <b>Active (±4m)</b></span>
+              <span class="m-queue-tag" id="mQueueBadge">0 in queue</span>
+            </div>
+            <div class="route-dest">
+              <b>Sen Sok & Daun Penh District Loop</b>
+              <small>3 Priority Outlets Scheduled Today</small>
+            </div>
+          </div>
+
+          <div class="phone-stores-label">Select Retail Store:</div>
+          <div class="phone-stores-list" id="mStoresList"></div>
+
+          <div class="phone-actions">
+            <button type="button" class="btn primary btn-phone-action" id="mCheckinBtn">
+              <span>📍 Log GPS Check-in & Visit</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mobile-sim-panel">
+        <div class="m-panel-header">
+          <div class="m-panel-title">
+            <span>⚙️ Flutter & SQLite Architecture Telemetry</span>
+            <small>Live isolate background sync worker stream</small>
+          </div>
+          <button type="button" class="btn-ghost-icon" id="mResetSimBtn">🔄 Reset Route</button>
+        </div>
+
+        <div class="m-arch-grid">
+          <div class="m-arch-card">
+            <span class="m-arch-lbl">BLoC State:</span>
+            <b class="bloc-val green" id="mBlocState">SyncState.online</b>
+          </div>
+          <div class="m-arch-card">
+            <span class="m-arch-lbl">Local Database:</span>
+            <b>SQLite (drift / moor ORM)</b>
+          </div>
+          <div class="m-arch-card">
+            <span class="m-arch-lbl">Packet Encryption:</span>
+            <b>AES-256 Envelope</b>
+          </div>
+          <div class="m-arch-card">
+            <span class="m-arch-lbl">Cloud API Gateway:</span>
+            <b>REST / HTTPS Bearer</b>
+          </div>
+        </div>
+
+        <div class="m-sync-stream">
+          <div class="m-stream-head">
+            <span>Real-Time SQLite Queue & Background Dispatch Stream</span>
+            <span class="pipe-code-tag">Dart Isolate</span>
+          </div>
+          <div class="m-log-feed" id="mSyncLog">
+            <div class="m-log-line info"><span class="m-log-time">[Ready]</span> Flutter isolate listening for connectivity changes. Click "Toggle Network" to test offline SQLite queuing.</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section id="dashboard" class="wrap reveal">
@@ -676,6 +949,47 @@
           <button type="button" class="rate-pill" data-cur="USD" data-amt="5.00">$5.00 (20,500 ៛)</button>
           <button type="button" class="rate-pill" data-cur="KHR" data-amt="10000">10,000 ៛ ($2.44)</button>
           <button type="button" class="rate-pill" data-cur="KHR" data-amt="40000">40,000 ៛ ($9.76)</button>
+        </div>
+      </div>
+
+      <!-- Interactive Retail POS Register Scanner & Basket Builder -->
+      <div class="pos-basket-builder">
+        <div class="basket-head">
+          <span class="basket-title">🛒 Supermarket POS Register Simulator</span>
+          <div class="basket-head-right">
+            <span class="basket-hint">Scan items to build cart:</span>
+            <button type="button" class="btn-clear-cart" id="posClearCart" hidden>Clear Cart</button>
+          </div>
+        </div>
+        <div class="basket-items-row" role="group" aria-label="POS Register Item Scanner">
+          <button type="button" class="pos-item-btn" data-name="Artisan Baguette" data-price="1.20">
+            <span class="p-item-icon">🥖</span>
+            <span class="p-item-info">
+              <b>Baguette</b>
+              <small>$1.20</small>
+            </span>
+          </button>
+          <button type="button" class="pos-item-btn" data-name="Arabica Coffee" data-price="2.50">
+            <span class="p-item-icon">☕</span>
+            <span class="p-item-info">
+              <b>Coffee</b>
+              <small>$2.50</small>
+            </span>
+          </button>
+          <button type="button" class="pos-item-btn" data-name="Fresh Milk 1L" data-price="2.20">
+            <span class="p-item-icon">🥛</span>
+            <span class="p-item-info">
+              <b>Milk 1L</b>
+              <small>$2.20</small>
+            </span>
+          </button>
+          <button type="button" class="pos-item-btn" data-name="Dark Chocolate" data-price="3.50">
+            <span class="p-item-icon">🍫</span>
+            <span class="p-item-info">
+              <b>Chocolate</b>
+              <small>$3.50</small>
+            </span>
+          </button>
         </div>
       </div>
       <div class="demo-form">
@@ -749,12 +1063,24 @@
 
   <section id="journey" class="wrap reveal">
     <div class="section-head">
-      <span class="section-tag">Engineering Milestones</span>
-      <h2>My engineering journey</h2>
-      <p class="sub">Key stages in software engineering, enterprise delivery, and digital innovation in Cambodia.</p>
+      <div class="journey-head-row">
+        <div>
+          <span class="section-tag">Engineering Milestones</span>
+          <h2>My engineering journey</h2>
+          <p class="sub">Key stages in software engineering, enterprise delivery, and digital innovation in Cambodia.</p>
+        </div>
+        <div class="journey-actions">
+          <button type="button" class="btn-journey-tour glow" id="btnJourneyTour" aria-label="Replay Career Tour">
+            <span class="tour-icon">⚡</span>
+            <span class="tour-text">Replay Career Tour ▶</span>
+          </button>
+        </div>
+      </div>
     </div>
     <div class="journey-timeline">
-      <div class="timeline-track-line" aria-hidden="true"></div>
+      <div class="timeline-track-line" aria-hidden="true">
+        <div class="timeline-runner" id="timelineRunner"></div>
+      </div>
       
       <article class="timeline-item glow" data-year="2020 - 2024">
         <div class="timeline-dot-wrap">
@@ -977,6 +1303,7 @@
   </button>
 </nav>
 
+
 <script src="i18n.js"></script>
 <script src="cv.js"></script>
 <script src="script.js?v=20261019"></script>
@@ -996,6 +1323,8 @@
 <script src="hotspots.js"></script>
 <script src="hud.js"></script>
 <script src="skills-radar.js"></script>
+<script src="mobile-sim.js"></script>
+<script src="switch-matrix.js"></script>
 <script src="confetti.js"></script>
 <script src="shortcuts.js"></script>
 </body>

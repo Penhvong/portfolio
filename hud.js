@@ -68,14 +68,16 @@
       function renderWave(){
         actx.clearRect(0, 0, 48, 16);
         var isMuted = localStorage.getItem('sound_enabled') !== 'true';
+        var isAmbient = window.isAmbientPlaying && window.isAmbientPlaying();
         for(var i = 0; i < 5; i++){
-          if(isMuted){
+          if(isMuted && !isAmbient){
             bars[i] += (2 - bars[i]) * 0.1;
             actx.fillStyle = 'rgba(100, 116, 139, 0.4)';
           } else {
-            var base = isAudioActive ? targetBars[i] : (2 + Math.sin(Date.now() * 0.006 + i) * 2 + 1);
+            var waveBase = isAmbient ? (5 + Math.sin(Date.now() * 0.004 + i * 1.1) * 4) : 2;
+            var base = isAudioActive ? targetBars[i] : (waveBase + Math.sin(Date.now() * 0.006 + i) * 2 + 1);
             bars[i] += (base - bars[i]) * 0.25;
-            actx.fillStyle = isAudioActive ? '#00f5d4' : '#38bdf8';
+            actx.fillStyle = isAudioActive ? '#00f5d4' : (isAmbient ? '#a78bfa' : '#38bdf8');
           }
           var h = Math.max(2, Math.min(14, bars[i]));
           var x = i * 9 + 4;

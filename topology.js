@@ -492,10 +492,13 @@ public bool ValidateBakongWebhook(string rawPayload, string signatureHeader) {
       });
     }
 
+    var bakongMatrix = document.getElementById('pipeBakongMatrix');
+
     if(key === 'clients'){
       if(subchannelBar) subchannelBar.hidden = false;
       if(sqlActions) sqlActions.style.display = 'none';
       if(sqlResults) sqlResults.style.display = 'none';
+      if(bakongMatrix) bakongMatrix.style.display = 'none';
       var sub = CLIENT_SUBCHANNELS[activeSubchannel] || CLIENT_SUBCHANNELS.flutter;
       if(codeTitle) codeTitle.textContent = sub.name;
       if(codeTag) codeTag.textContent = sub.tag;
@@ -504,18 +507,28 @@ public bool ValidateBakongWebhook(string rawPayload, string signatureHeader) {
       if(subchannelBar) subchannelBar.hidden = true;
       if(sqlActions) sqlActions.style.display = 'flex';
       if(sqlResults) sqlResults.style.display = 'block';
+      if(bakongMatrix) bakongMatrix.style.display = 'none';
       var v = SQL_VARIANTS[activeSqlVariant] || SQL_VARIANTS.reconciliation;
       if(codeTitle) codeTitle.textContent = 'Microsoft SQL Server 2022 Analytical SELECT Query';
       if(codeTag) codeTag.textContent = 'T-SQL / SQL Server 2022';
       if(codeEl) codeEl.textContent = v.code;
       renderSqlTable(activeSqlVariant);
       renderExecutionPlan(activeSqlVariant);
+    } else if(key === 'bakong'){
+      if(subchannelBar) subchannelBar.hidden = true;
+      if(sqlActions) sqlActions.style.display = 'none';
+      if(sqlResults) sqlResults.style.display = 'none';
+      if(bakongMatrix) bakongMatrix.style.display = 'block';
+      if(codeTitle) codeTitle.textContent = n.name + ' Implementation Excerpt';
+      if(codeTag) codeTag.textContent = 'EMVCo / HMAC-SHA256';
+      if(codeEl) codeEl.textContent = n.codeSnippet;
     } else {
       if(subchannelBar) subchannelBar.hidden = true;
       if(sqlActions) sqlActions.style.display = 'none';
       if(sqlResults) sqlResults.style.display = 'none';
+      if(bakongMatrix) bakongMatrix.style.display = 'none';
       if(codeTitle) codeTitle.textContent = n.name + ' Implementation Excerpt';
-      if(codeTag) codeTag.textContent = key === 'gateway' ? 'ASP.NET Core 8 / C#' : 'EMVCo / HMAC-SHA256';
+      if(codeTag) codeTag.textContent = 'ASP.NET Core 8 / C#';
       if(codeEl) codeEl.textContent = n.codeSnippet;
     }
   }
@@ -858,32 +871,62 @@ public bool ValidateBakongWebhook(string rawPayload, string signatureHeader) {
       });
     }
 
-    // SQL tab switcher (Grid vs Plan)
+    // SQL tab switcher (Grid vs Plan vs Gauge)
     var btnTabGrid = document.getElementById('sqlTabGridBtn');
     var btnTabPlan = document.getElementById('sqlTabPlanBtn');
+    var btnTabGauge = document.getElementById('sqlTabGaugeBtn');
     var tblContainer = document.getElementById('sqlTableContainer');
     var planWrap = document.getElementById('sqlPlanTreeWrap');
+    var gaugeWrap = document.getElementById('sqlGaugeWrap');
 
-    if(btnTabGrid && btnTabPlan){
-      btnTabGrid.addEventListener('click', function(){
-        if(window.playSfx) window.playSfx('click');
-        activeSqlTab = 'grid';
-        btnTabGrid.classList.add('active');
-        btnTabPlan.classList.remove('active');
+    function selectSqlTab(tab){
+      if(window.playSfx) window.playSfx('click');
+      activeSqlTab = tab;
+      [btnTabGrid, btnTabPlan, btnTabGauge].forEach(function(b){ if(b) b.classList.remove('active'); });
+      if(tblContainer) tblContainer.style.display = 'none';
+      if(planWrap) planWrap.style.display = 'none';
+      if(gaugeWrap) gaugeWrap.style.display = 'none';
+
+      if(tab === 'grid'){
+        if(btnTabGrid) btnTabGrid.classList.add('active');
         if(tblContainer) tblContainer.style.display = 'block';
-        if(planWrap) planWrap.style.display = 'none';
-      });
-
-      btnTabPlan.addEventListener('click', function(){
-        if(window.playSfx) window.playSfx('click');
-        activeSqlTab = 'plan';
-        btnTabPlan.classList.add('active');
-        btnTabGrid.classList.remove('active');
-        if(tblContainer) tblContainer.style.display = 'none';
+      } else if(tab === 'plan'){
+        if(btnTabPlan) btnTabPlan.classList.add('active');
         if(planWrap){
           planWrap.style.display = 'block';
           renderExecutionPlan(activeSqlVariant);
         }
+      } else if(tab === 'gauge'){
+        if(btnTabGauge) btnTabGauge.classList.add('active');
+        if(gaugeWrap) gaugeWrap.style.display = 'block';
+      }
+    }
+
+    if(btnTabGrid) btnTabGrid.addEventListener('click', function(){ selectSqlTab('grid'); });
+    if(btnTabPlan) btnTabPlan.addEventListener('click', function(){ selectSqlTab('plan'); });
+    if(btnTabGauge) btnTabGauge.addEventListener('click', function(){ selectSqlTab('gauge'); });
+
+    // Real-Time Concurrency Stress Test Slider
+    var range = document.getElementById('concurrencyRange');
+    var valEl = document.getElementById('concurrencyVal');
+    var tpsEl = document.getElementById('benchTps');
+    var p99El = document.getElementById('benchP99');
+    var cpuEl = document.getElementById('benchCpu');
+    var latVal = document.getElementById('gaugeLatencyVal');
+    var latFill = document.getElementById('gaugeLatencyFill');
+
+    if(range){
+      range.addEventListener('input', function(){
+        var val = parseInt(range.value, 10);
+        if(valEl) valEl.textContent = val.toLocaleString();
+        var tps = Math.round(val * 4);
+        var lat = (4.2 + (val / 5000) * 11.2).toFixed(1);
+        var cpu = (3.5 + (val / 5000) * 44.5).toFixed(1);
+        if(tpsEl) tpsEl.textContent = tps.toLocaleString() + ' req/sec';
+        if(p99El) p99El.textContent = lat + 'ms';
+        if(cpuEl) cpuEl.textContent = cpu + '%';
+        if(latVal) latVal.textContent = lat + 'ms';
+        if(latFill) latFill.style.width = Math.min(100, Math.round((lat / 30) * 100)) + '%';
       });
     }
 
